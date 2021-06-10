@@ -1,0 +1,59 @@
+{
+  "name": "web-img-optimizer",
+  "description": "A tool for fetching and optimize all images of a web page.",
+  "version": "0.0.0",
+  "author": "Igor Gassmann <igor@igassmann.me> (https://igassmann.me/)",
+  "bin": {
+    "wio": "./bin/run"
+  },
+  "bugs": "https://github.com/IGassmann/web-img-optimizer/issues",
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^3",
+    "puppeteer": "^10.0.0",
+    "svgo": "^2.3.0",
+    "tinify": "^1.6.0-beta.2",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@oclif/test": "^1",
+    "@types/chai": "^4",
+    "@types/mocha": "^5",
+    "@types/node": "^14",
+    "@types/svgo": "^2.3.0",
+    "chai": "^4",
+    "eslint": "^5.13",
+    "eslint-config-oclif": "^3.1",
+    "eslint-config-oclif-typescript": "^0.1",
+    "mocha": "^5",
+    "nyc": "^14",
+    "ts-node": "^8",
+    "typescript": "^3.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/IGassmann/web-img-optimizer",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "Unlicense",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "wio"
+  },
+  "repository": "IGassmann/web-img-optimizer",
+  "scripts": {
+    "posttest": "eslint . --ext .ts --config .eslintrc",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
