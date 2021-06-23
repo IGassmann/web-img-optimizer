@@ -11,23 +11,27 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14.1.x
-      - run: yarn install --frozen-lockfile
+          node-version: 12
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - run: yarn test
   build-tarballs:
     name: Build tarballs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14.1.x
-      - run: yarn install --frozen-lockfile
+          node-version: 12
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - run: yarn build
       - name: Upload tarballs
         uses: actions/upload-artifact@v2
@@ -35,7 +39,7 @@ jobs:
           name: wio-tarballs
           path: dist/*/
   build-installers:
-    name: Build installer for ${{ runner.os }}
+    name: Build installer for ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -47,20 +51,27 @@ jobs:
           - platform: deb
             os: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14.1.x
-      - run: yarn install --frozen-lockfile
-      - name: Install makensis tool for Windows
+          node-version: 12
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Install build tools for Windows
         if: ${{ matrix.platform == 'win' }}
         run: |
           sudo apt-get update
-          sudo apt-get install nsis p7zip-full
+          sudo apt-get install nsis
+      - name: Install build tools for Linux
+        if: ${{ matrix.platform == 'deb' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm-dev
       - name: Build installer
         run: sudo yarn build:${{ matrix.platform }}
-      - name: Upload binaries
+      - name: Upload installer
         uses: actions/upload-artifact@v2
         with:
           name: wio-${{ matrix.platform }}-installer
@@ -71,18 +82,20 @@ jobs:
     needs: [test, build-tarballs, build-installers]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14.1.x
-      - run: yarn install --frozen-lockfile
+          node-version: 12
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.1.x
+          node-version: 12
           registry-url: 'https://npm.pkg.github.com'
       - run: yarn publish
         env:
@@ -104,7 +117,7 @@ jobs:
           tag: ${{ github.ref }}
           file_glob: true
   publish_installers:
-    name: Publish installer for ${{ runner.os }}
+    name: Publish installer for ${{ matrix.platform }}
     if: startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master'
     needs: [test, build-tarballs, build-installers]
     runs-on: ${{ matrix.os }}

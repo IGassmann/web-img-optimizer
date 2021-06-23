@@ -19,7 +19,7 @@ $ npm install -g web-img-optimizer
 $ wio COMMAND
 running command...
 $ wio (-v|--version|version)
-web-img-optimizer/0.1.0 darwin-x64 node-v14.17.0
+web-img-optimizer/0.1.0 darwin-x64 node-v12.20.0
 $ wio --help [COMMAND]
 USAGE
   $ wio COMMAND
