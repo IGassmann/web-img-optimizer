@@ -42,7 +42,7 @@ jobs:
             platform: deb
           - os: macos-latest
             platform: macos
-          - os: windows-2016
+          - os: windows-latest
             platform: win
     name: Build installer for ${{ matrix.platform }}
     steps:
@@ -55,6 +55,9 @@ jobs:
       - name: Build Linux or MacOS installer
         if: ${{ matrix.platform == 'deb' || matrix.platform == 'macos' }}
         run: sudo yarn build:${{ matrix.platform }}
+      - name: Install 7zip on Windows
+        if: ${{ matrix.platform == 'win' }}
+        run: choco install 7zip
       - name: Build Windows installer
         if: ${{ matrix.platform == 'win' }}
         run: yarn build:win
