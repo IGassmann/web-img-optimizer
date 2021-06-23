@@ -54,7 +54,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - name: Build Linux or MacOS installer
         if: ${{ matrix.platform == 'deb' || matrix.platform == 'macos' }}
-        run: yarn build:${{ matrix.platform }}
+        run: sudo yarn build:${{ matrix.platform }}
       - name: Build Windows installer
         if: ${{ matrix.platform == 'win' }}
         run: yarn build:win
