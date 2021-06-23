@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Node 14 on ubuntu-latest
+    name: Test
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -20,7 +20,7 @@ jobs:
       - run: yarn test
   build:
     runs-on: ubuntu-latest
-    name: Node 14 on ubuntu-latest
+    name: Build
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -29,3 +29,7 @@ jobs:
           node-version: 14
       - run: yarn install --frozen-lockfile
       - run: yarn build
+      - name: Upload binaries
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/
