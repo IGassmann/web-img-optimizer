@@ -39,6 +39,7 @@
     "@types/imagemin-zopfli": "^7.0.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^14.1.0",
+
     "@types/node-fetch": "^2.5.10",
     "@types/sharp": "^0.28.3",
     "chai": "^4.3.4",

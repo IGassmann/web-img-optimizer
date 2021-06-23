@@ -118,10 +118,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - platform: macos
-          - platform: win
-          - platform: deb
+        platform: [macos, win, deb]
     steps:
       - uses: actions/download-artifact@v2
         with:
