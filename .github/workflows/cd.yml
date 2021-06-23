@@ -24,7 +24,18 @@ jobs:
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  github_release:
+  github_release_tarballs:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+  github_release_installers:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -44,7 +55,3 @@ jobs:
           node-version: 14
       - run: yarn install --frozen-lockfile
       - run: yarn build:${{ matrix.platform }}
-      - name: Upload binaries
-        uses: actions/upload-artifact@v2
-        with:
-          path: dist/
