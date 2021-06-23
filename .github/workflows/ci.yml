@@ -29,10 +29,11 @@ jobs:
           node-version: 14
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - name: Upload binaries
+      - name: Upload tarballs
         uses: actions/upload-artifact@v2
         with:
-          path: dist/
+          name: wio-tarballs
+          path: dist/*/
   build-installers:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -62,4 +63,5 @@ jobs:
       - name: Upload binaries
         uses: actions/upload-artifact@v2
         with:
-          path: dist/
+          name: wio-${{ matrix.platform }}-installer
+          path: dist/${{ matrix.platform }}/
