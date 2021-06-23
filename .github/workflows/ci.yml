@@ -38,34 +38,22 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            platform: deb
-          - os: macos-latest
-            platform: macos
-          - os: windows-latest
-            platform: win
+          - platform: macos
+            os: macos-latest
+          - platform: win
+            os: ubuntu-latest
+          - platform: deb
+            os: ubuntu-latest
     name: Build installer for ${{ matrix.platform }}
     steps:
-      - name: Setup WSL on Windows
-        if: ${{ matrix.platform == 'win' }}
-        uses: Vampire/setup-wsl@v1.1.0
-        with:
-          additional-packages:
-            nodejs
-            yarn
       - uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: 14
       - run: yarn install --frozen-lockfile
-      - name: Build Linux or MacOS installer
-        if: ${{ matrix.platform == 'deb' || matrix.platform == 'macos' }}
+      - name: Build installer
         run: sudo yarn build:${{ matrix.platform }}
-      - name: Build Windows installer
-        if: ${{ matrix.platform == 'win' }}
-        shell: wsl-bash -u root {0}
-        run: yarn build:win
       - name: Upload binaries
         uses: actions/upload-artifact@v2
         with:
