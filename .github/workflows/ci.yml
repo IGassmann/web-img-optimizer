@@ -20,7 +20,7 @@ jobs:
       - run: yarn test
   build-tarballs:
     runs-on: ubuntu-latest
-    name: Build
+    name: Build tarballs
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -44,7 +44,7 @@ jobs:
             platform: macos
           - os: windows-latest
             platform: win
-    name: Node 14 on ${{ matrix.os }}
+    name: Build installer for ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -53,10 +53,10 @@ jobs:
           node-version: 14
       - run: yarn install --frozen-lockfile
       - name: Build Linux or MacOS installer
-        if: {{ matrix.platform == 'deb' || matrix.platform == 'macos' }}
+        if: ${{ matrix.platform == 'deb' || matrix.platform == 'macos' }}
         run: yarn build:${{ matrix.platform }}
       - name: Build Windows installer
-        if: {{ matrix.platform == 'win' }}
+        if: ${{ matrix.platform == 'win' }}
         run: yarn build:win
       - name: Upload binaries
         uses: actions/upload-artifact@v2
