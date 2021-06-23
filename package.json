@@ -1,12 +1,37 @@
 {
   "name": "web-img-optimizer",
+  "version": "0.2.0",
   "description": "A tool for fetching and optimize all images of a web page.",
-  "version": "0.1.0",
+  "keywords": [
+    "web",
+    "image",
+    "performance",
+    "cli",
+    "oclif"
+  ],
+  "license": "Unlicense",
+  "homepage": "https://github.com/IGassmann/web-img-optimizer",
+  "repository": "git://github.com/IGassmann/web-img-optimizer.git",
+  "bugs": "https://github.com/IGassmann/web-img-optimizer/issues",
   "author": "Igor Gassmann <igor@igassmann.me> (https://igassmann.me/)",
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "bin": {
     "wio": "./bin/run"
   },
-  "bugs": "https://github.com/IGassmann/web-img-optimizer/issues",
+  "scripts": {
+    "test": "jest",
+    "build": "oclif-dev pack",
+    "build:macos": "oclif-dev pack:macos",
+    "build:win": "oclif-dev pack:win",
+    "build:deb": "oclif-dev pack:deb",
+    "version": "oclif-dev readme && git add README.md",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev readme"
+  },
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",
@@ -39,7 +64,6 @@
     "@types/imagemin-zopfli": "^7.0.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^14.1.0",
-
     "@types/node-fetch": "^2.5.10",
     "@types/sharp": "^0.28.3",
     "chai": "^4.3.4",
@@ -54,42 +78,22 @@
   "engines": {
     "node": "^14.1.0"
   },
-  "files": [
-    "/bin",
-    "/lib"
-  ],
-  "homepage": "https://github.com/IGassmann/web-img-optimizer",
-  "keywords": [
-    "oclif"
-  ],
-  "license": "Unlicense",
-  "main": "lib/index.js",
   "oclif": {
     "commands": "./lib/commands",
     "bin": "wio",
     "plugins": [
       "@oclif/plugin-help",
-      "@oclif/plugin-warn-if-update-available",
-      "@oclif/plugin-autocomplete"
+      "@oclif/plugin-autocomplete",
+      "@oclif/plugin-update",
+      "@oclif/plugin-warn-if-update-available"
     ],
     "update": {
       "s3": {
-        "host": ""
+        "host": "https://github.com/IGassmann/web-img-optimizer/releases/latest/download"
       }
     },
     "macos": {
       "identifier": "me.igassmann.web-img-optimizer"
     }
-  },
-  "repository": "IGassmann/web-img-optimizer",
-  "scripts": {
-    "test": "jest",
-    "build": "oclif-dev pack",
-    "build:macos": "oclif-dev pack:macos",
-    "build:win": "oclif-dev pack:win",
-    "build:deb": "oclif-dev pack:deb",
-    "version": "oclif-dev readme && git add README.md",
-    "prepack": "rm -rf lib && tsc -b && oclif-dev readme"
-  },
-  "types": "lib/index.d.ts"
+  }
 }

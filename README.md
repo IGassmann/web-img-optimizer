@@ -19,7 +19,7 @@ $ npm install -g web-img-optimizer
 $ wio COMMAND
 running command...
 $ wio (-v|--version|version)
-web-img-optimizer/0.1.0 darwin-x64 node-v12.20.0
+web-img-optimizer/0.2.0 darwin-x64 node-v14.17.0
 $ wio --help [COMMAND]
 USAGE
   $ wio COMMAND
@@ -77,7 +77,7 @@ OPTIONS
   --sort=sort             property to sort by (prepend '-' for descending)
 ```
 
-_See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.1.0/src/commands/dimensions.ts)_
+_See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.2.0/src/commands/dimensions.ts)_
 
 ## `wio help [COMMAND]`
 
@@ -108,7 +108,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/optimize.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.1.0/src/commands/optimize.ts)_
+_See code: [src/commands/optimize.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.2.0/src/commands/optimize.ts)_
 
 ## `wio preload [PAGEURL]`
 
@@ -122,5 +122,5 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/preload.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.1.0/src/commands/preload.ts)_
+_See code: [src/commands/preload.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.2.0/src/commands/preload.ts)_
 <!-- commandsstop -->
