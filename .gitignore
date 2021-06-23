@@ -1,4 +1,7 @@
 *.log
-dist/
+/dist/
+/lib/
+/tmp/
+/coverage/
 yarn.lock
 node_modules
