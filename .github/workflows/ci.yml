@@ -52,6 +52,11 @@ jobs:
         with:
           node-version: 14
       - run: yarn install --frozen-lockfile
+      - name: Install building tools for Windows
+        if: ${{ matrix.platform == 'win' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install nsis p7zip-full
       - name: Build installer
         run: sudo yarn build:${{ matrix.platform }}
       - name: Upload binaries
