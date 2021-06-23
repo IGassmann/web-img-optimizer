@@ -85,6 +85,9 @@
     "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
     "test": "jest",
     "build": "oclif-dev pack",
+    "build:macos": "oclif-dev pack:macos",
+    "build:win": "oclif-dev pack:win",
+    "build:deb": "oclif-dev pack:deb",
     "version": "oclif-dev readme && git add README.md"
   },
   "types": "lib/index.d.ts"

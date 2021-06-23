@@ -18,7 +18,7 @@ jobs:
           node-version: 14
       - run: yarn install --frozen-lockfile
       - run: yarn test
-  build:
+  build-tarballs:
     runs-on: ubuntu-latest
     name: Build
     steps:
@@ -28,7 +28,31 @@ jobs:
         with:
           node-version: 14
       - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - run: yarn build:macos
+      - name: Upload binaries
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/
+  build-installers:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: deb
+          - os: macos-latest
+            platform: macos
+          - os: windows-latest
+            platform: win
+    name: Node 14 on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: yarn install --frozen-lockfile
+      - run: yarn build:${{ matrix.platform }}
       - name: Upload binaries
         uses: actions/upload-artifact@v2
         with:
