@@ -52,7 +52,7 @@ jobs:
         with:
           node-version: 14
       - run: yarn install --frozen-lockfile
-      - name: Install building tools for Windows
+      - name: Install makensis tool for Windows
         if: ${{ matrix.platform == 'win' }}
         run: |
           sudo apt-get update
