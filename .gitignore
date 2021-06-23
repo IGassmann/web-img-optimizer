@@ -3,5 +3,4 @@
 /lib/
 /tmp/
 /coverage/
-yarn.lock
 node_modules

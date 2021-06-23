@@ -28,10 +28,34 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`wio autocomplete [SHELL]`](#wio-autocomplete-shell)
 * [`wio dimensions [PAGEURL]`](#wio-dimensions-pageurl)
 * [`wio help [COMMAND]`](#wio-help-command)
 * [`wio optimize [PAGEURL]`](#wio-optimize-pageurl)
 * [`wio preload [PAGEURL]`](#wio-preload-pageurl)
+
+## `wio autocomplete [SHELL]`
+
+display autocomplete installation instructions
+
+```
+USAGE
+  $ wio autocomplete [SHELL]
+
+ARGUMENTS
+  SHELL  shell type
+
+OPTIONS
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+EXAMPLES
+  $ wio autocomplete
+  $ wio autocomplete bash
+  $ wio autocomplete zsh
+  $ wio autocomplete --refresh-cache
+```
+
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.3.0/src/commands/autocomplete/index.ts)_
 
 ## `wio dimensions [PAGEURL]`
 
