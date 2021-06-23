@@ -1,0 +1,129 @@
+name: CI/CD Pipelines
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
+  build-tarballs:
+    runs-on: ubuntu-latest
+    name: Build tarballs
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - name: Upload tarballs
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.repository.name }}-tarballs
+          path: dist/*/
+  build-installers:
+    name: Build installer for ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - platform: macos
+            os: macos-latest
+          - platform: win
+            os: ubuntu-latest
+          - platform: deb
+            os: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: yarn install --frozen-lockfile
+      - name: Install makensis tool for Windows
+        if: ${{ matrix.platform == 'win' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install nsis p7zip-full
+      - name: Build installer
+        run: sudo yarn build:${{ matrix.platform }}
+      - name: Upload binaries
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.repository.name }}-${{ matrix.platform }}-installer
+          path: dist/${{ matrix.platform }}/
+  publish_npm_and_github_packages:
+    name: Publish npm and GitHub packages
+    if: startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master'
+    needs: [test, build-tarballs, build-installers]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: yarn install --frozen-lockfile
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+  publish_tarballs:
+    name: Publish tarballs
+    if: startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master'
+    needs: [test, build-tarballs, build-installers]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.repository.name }}-tarballs
+      - name: Upload tarballs to a GitHub release
+        uses: svenstaro/upload-release-action@2.2.1
+        with:
+          repo_token: ${{ github.token }}
+          file: ${{ github.repository.name }}-tarballs/*.tar.gz
+          tag: ${{ github.ref }}
+          file_glob: true
+  publish_installers:
+    name: Publish installer for ${{ matrix.platform }}
+    if: startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master'
+    needs: [test, build-tarballs, build-installers]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - platform: macos
+            os: macos-latest
+          - platform: win
+            os: ubuntu-latest
+          - platform: deb
+            os: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.repository.name }}-${{ matrix.platform }}-installer
+      - name: Upload installers to a GitHub release
+        uses: svenstaro/upload-release-action@2.2.1
+        with:
+          repo_token: ${{ github.token }}
+          file: ${{ github.repository.name }}-${{ matrix.platform }}-installer/*.{deb,pkg,exe}
+          tag: ${{ github.ref }}
+          file_glob: true
