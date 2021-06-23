@@ -15,7 +15,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 14.1.x
       - run: yarn install --frozen-lockfile
       - run: yarn test
   build-tarballs:
@@ -26,7 +26,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 14.1.x
       - run: yarn install --frozen-lockfile
       - run: yarn build
       - name: Upload tarballs
@@ -35,7 +35,7 @@ jobs:
           name: wio-tarballs
           path: dist/*/
   build-installers:
-    name: Build installer for ${{ matrix.platform }}
+    name: Build installer for ${{ runner.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -51,7 +51,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 14.1.x
       - run: yarn install --frozen-lockfile
       - name: Install makensis tool for Windows
         if: ${{ matrix.platform == 'win' }}
@@ -75,13 +75,14 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 14.1.x
       - run: yarn install --frozen-lockfile
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: actions/setup-node@v2
         with:
+          node-version: 14.1.x
           registry-url: 'https://npm.pkg.github.com'
       - run: yarn publish
         env:
@@ -103,7 +104,7 @@ jobs:
           tag: ${{ github.ref }}
           file_glob: true
   publish_installers:
-    name: Publish installer for ${{ matrix.platform }}
+    name: Publish installer for ${{ runner.os }}
     if: startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master'
     needs: [test, build-tarballs, build-installers]
     runs-on: ${{ matrix.os }}
