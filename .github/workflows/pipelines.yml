@@ -8,8 +8,8 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
     name: Test
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -19,8 +19,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn test
   build-tarballs:
-    runs-on: ubuntu-latest
     name: Build tarballs
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -32,7 +32,7 @@ jobs:
       - name: Upload tarballs
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.repository.name }}-tarballs
+          name: wio-tarballs
           path: dist/*/
   build-installers:
     name: Build installer for ${{ matrix.platform }}
@@ -63,7 +63,7 @@ jobs:
       - name: Upload binaries
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.repository.name }}-${{ matrix.platform }}-installer
+          name: wio-${{ matrix.platform }}-installer
           path: dist/${{ matrix.platform }}/
   publish_npm_and_github_packages:
     name: Publish npm and GitHub packages
@@ -94,12 +94,12 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: ${{ github.repository.name }}-tarballs
+          name: wio-tarballs
       - name: Upload tarballs to a GitHub release
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ github.token }}
-          file: ${{ github.repository.name }}-tarballs/*.tar.gz
+          file: wio-tarballs/*.tar.gz
           tag: ${{ github.ref }}
           file_glob: true
   publish_installers:
@@ -119,11 +119,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: ${{ github.repository.name }}-${{ matrix.platform }}-installer
+          name: wio-${{ matrix.platform }}-installer
       - name: Upload installers to a GitHub release
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ github.token }}
-          file: ${{ github.repository.name }}-${{ matrix.platform }}-installer/*.{deb,pkg,exe}
+          file: wio-${{ matrix.platform }}-installer/*.{deb,pkg,exe}
           tag: ${{ github.ref }}
           file_glob: true
