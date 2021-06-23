@@ -32,7 +32,8 @@ jobs:
           node-version: 14
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - run: yarn build
+      - name: Build tarballs
+        run: yarn build
       - name: Upload tarballs
         uses: actions/upload-artifact@v2
         with:
@@ -79,20 +80,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Setup Node.js
+      - name: Setup Node.js for npm
         uses: actions/setup-node@v2
         with:
           node-version: 14
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - run: yarn publish
+      - name: Publish to npm
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - uses: actions/setup-node@v2
+      - name: Setup Node.js for GitHub
+        uses: actions/setup-node@v2
         with:
           node-version: 14
           registry-url: 'https://npm.pkg.github.com'
-      - run: yarn publish
+      - name: Publish to GitHub Packages
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ github.token }}
   publish_tarballs:
@@ -101,7 +105,8 @@ jobs:
     needs: [test, build-tarballs, build-installers]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
+      - name: Download previously-built tarballs
+        uses: actions/download-artifact@v2
         with:
           name: wio-tarballs
       - name: Upload tarballs to a GitHub release
@@ -120,10 +125,11 @@ jobs:
       matrix:
         platform: [macos, win, deb]
     steps:
-      - uses: actions/download-artifact@v2
+      - name: Download ${{ matrix.platform }} previously-built installer
+        uses: actions/download-artifact@v2
         with:
           name: wio-${{ matrix.platform }}-installer
-      - name: Upload installers to a GitHub release
+      - name: Upload installer to a GitHub release
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ github.token }}
