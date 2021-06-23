@@ -46,6 +46,13 @@ jobs:
             platform: win
     name: Build installer for ${{ matrix.platform }}
     steps:
+      - name: Setup WSL on Windows
+        if: ${{ matrix.platform == 'win' }}
+        uses: Vampire/setup-wsl@v1.1.0
+        with:
+          additional-packages:
+            nodejs
+            yarn
       - uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v2
@@ -55,9 +62,6 @@ jobs:
       - name: Build Linux or MacOS installer
         if: ${{ matrix.platform == 'deb' || matrix.platform == 'macos' }}
         run: sudo yarn build:${{ matrix.platform }}
-      - name: Setup WSL on Windows
-        if: ${{ matrix.platform == 'win' }}
-        uses: Vampire/setup-wsl@v1.1.0
       - name: Build Windows installer
         if: ${{ matrix.platform == 'win' }}
         shell: wsl-bash -u root {0}
