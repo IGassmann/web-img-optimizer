@@ -55,11 +55,12 @@ jobs:
       - name: Build Linux or MacOS installer
         if: ${{ matrix.platform == 'deb' || matrix.platform == 'macos' }}
         run: sudo yarn build:${{ matrix.platform }}
-      - name: Install 7zip on Windows
+      - name: Setup WSL on Windows
         if: ${{ matrix.platform == 'win' }}
-        run: choco install 7zip
+        uses: Vampire/setup-wsl@v1.1.0
       - name: Build Windows installer
         if: ${{ matrix.platform == 'win' }}
+        shell: wsl-bash -u root {0}
         run: yarn build:win
       - name: Upload binaries
         uses: actions/upload-artifact@v2
