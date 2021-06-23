@@ -1,4 +1,4 @@
-name: Node.js CI
+name: web-img-optimizer CI
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Node.js Package
+name: web-img-optimizer CD
 
 on:
   release:
