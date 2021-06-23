@@ -18,6 +18,7 @@
     "cli-ux": "^5.6.2",
     "file-type": "^16.5.0",
     "imagemin": "^7.0.1",
+    "imagemin-giflossy": "^5.1.10",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-pngcrush": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
@@ -44,7 +45,6 @@
     "eslint": "^5.13",
     "eslint-config-oclif": "^3.1",
     "eslint-config-oclif-typescript": "^0.1",
-    "imagemin-giflossy": "^5.1.10",
     "jest": "^27.0.4",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
@@ -82,13 +82,13 @@
   },
   "repository": "IGassmann/web-img-optimizer",
   "scripts": {
-    "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
     "test": "jest",
     "build": "oclif-dev pack",
     "build:macos": "oclif-dev pack:macos",
     "build:win": "oclif-dev pack:win",
     "build:deb": "oclif-dev pack:deb",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev readme"
   },
   "types": "lib/index.d.ts"
 }
