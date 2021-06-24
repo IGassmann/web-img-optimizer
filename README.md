@@ -57,7 +57,7 @@ _See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-opt
 
 ## `wio optimize [PAGEURL]`
 
-Get the images from the page and optimize them.
+Optimize all the rendered images.
 
 ```
 USAGE
@@ -71,7 +71,7 @@ _See code: [src/commands/optimize.ts](https://github.com/IGassmann/web-img-optim
 
 ## `wio preload [PAGEURL]`
 
-Get preload tag for the largest element visible within the initial viewport if it's an image.
+Generate the preload tag for the largest image visible within the initial viewport.
 
 ```
 USAGE

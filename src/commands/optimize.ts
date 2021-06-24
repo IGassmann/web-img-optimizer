@@ -19,7 +19,7 @@ import * as sharp from 'sharp'
 import {extendDefaultPlugins} from 'svgo'
 
 export default class Optimize extends Command {
-  static description = 'Get the images from the page and optimize them.'
+  static description = 'Optimize all the rendered images.'
 
   static flags = {
     help: flags.help({char: 'h'}),

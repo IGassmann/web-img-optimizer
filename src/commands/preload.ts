@@ -21,8 +21,7 @@ function calculateLargestImageElement() {
 }
 
 export default class Preload extends Command {
-  static description = 'Get preload tag for the largest element visible within the initial viewport' +
-    " if it's an image."
+  static description = 'Generate the preload tag for the largest image visible within the initial viewport.'
 
   static flags = {
     help: flags.help({char: 'h'}),
