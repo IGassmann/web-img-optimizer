@@ -89,10 +89,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-#      - name: Publish to npm
-#        run: yarn publish
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 #  publish_to_github_packages:
 #    name: Publish to GitHub packages
 #    if: startsWith(github.ref, 'refs/tags/v')
