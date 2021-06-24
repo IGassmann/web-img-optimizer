@@ -25,7 +25,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "oclif-dev pack",
+    "build": "oclif-dev pack --targets darwin-x64,win32-x64",
     "build:macos": "oclif-dev pack:macos",
     "build:win": "oclif-dev pack:win",
     "build:deb": "oclif-dev pack:deb",
