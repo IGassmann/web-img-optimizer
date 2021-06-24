@@ -71,7 +71,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wio-${{ matrix.platform }}-installer
-          path: 'dist/${{ matrix.platform }}/*{.pkg,x64.exe}'
+          path: |
+            dist/macos/wio-*.pkg
+            dist/win/wio-*-x64.exe
   publish_to_npm:
     name: Publish to npm
     if: startsWith(github.ref, 'refs/tags/v')
