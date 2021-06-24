@@ -85,7 +85,7 @@
     ],
     "update": {
       "s3": {
-        "host": "https://github.com/IGassmann/web-img-optimizer/releases/latest/download"
+        "bucket": "web-img-optimizer-releases"
       }
     },
     "macos": {
