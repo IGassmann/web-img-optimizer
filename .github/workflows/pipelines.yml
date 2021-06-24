@@ -154,6 +154,6 @@ jobs:
         with:
           repo_token: ${{ github.token }}
           tag: ${{ github.ref }}
-          file: '*.{pkg,exe}'
+          file: '**/*.{pkg,exe}'
           file_glob: true
           overwrite: true
