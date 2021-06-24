@@ -116,45 +116,6 @@ jobs:
 #        run: npm publish
 #        env:
 #          NODE_AUTH_TOKEN: ${{ github.token }}
-
-  test_publish_tarballs:
-    name: Publish tarballs
-    needs: [build-tarballs]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download previously-built tarballs
-        id: download
-        uses: actions/download-artifact@v2
-        with:
-          name: wio-tarballs
-      - run: tree
-      - name: Configure AWS sredentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Copy tarballs to S3
-        run: aws s3 sync . s3://web-img-optimizer-releases
-  test_publish_tarballs_2:
-    name: Publish tarballs
-    needs: [build-tarballs]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download previously-built tarballs
-        id: download
-        uses: actions/download-artifact@v2
-        with:
-          name: wio-tarballs
-          path: ./wio-tarballs/
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Copy tarballs to S3
-        run: aws s3 sync ./wio-tarballs/ s3://web-img-optimizer-releases
   publish_tarballs:
     name: Publish tarballs
     if: startsWith(github.ref, 'refs/tags/v')
@@ -173,7 +134,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Copy tarballs to S3
-        run: aws s3 sync wio-tarballs/ s3://web-img-optimizer-releases
+        run: aws s3 sync . s3://web-img-optimizer-releases
   publish_installers:
     name: Publish installer for ${{ matrix.platform }}
     if: startsWith(github.ref, 'refs/tags/v')
