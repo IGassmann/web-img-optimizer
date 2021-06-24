@@ -29,7 +29,6 @@ USAGE
 # Commands
 <!-- commands -->
 * [`wio dimensions [PAGEURL]`](#wio-dimensions-pageurl)
-* [`wio help [COMMAND]`](#wio-help-command)
 * [`wio optimize [PAGEURL]`](#wio-optimize-pageurl)
 * [`wio preload [PAGEURL]`](#wio-preload-pageurl)
 * [`wio update [CHANNEL]`](#wio-update-channel)
@@ -55,23 +54,6 @@ OPTIONS
 ```
 
 _See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.2.0/src/commands/dimensions.ts)_
-
-## `wio help [COMMAND]`
-
-display help for wio
-
-```
-USAGE
-  $ wio help [COMMAND]
-
-ARGUMENTS
-  COMMAND  command to show help for
-
-OPTIONS
-  --all  see all commands in CLI
-```
-
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 
 ## `wio optimize [PAGEURL]`
 
