@@ -19,7 +19,7 @@ $ npm install -g web-img-optimizer
 $ wio COMMAND
 running command...
 $ wio (-v|--version|version)
-web-img-optimizer/0.4.0 darwin-x64 node-v14.17.0
+web-img-optimizer/0.4.1 darwin-x64 node-v14.17.0
 $ wio --help [COMMAND]
 USAGE
   $ wio COMMAND
@@ -29,7 +29,6 @@ USAGE
 # Commands
 <!-- commands -->
 * [`wio dimensions [PAGEURL]`](#wio-dimensions-pageurl)
-* [`wio optimize [PAGEURL]`](#wio-optimize-pageurl)
 * [`wio preload [PAGEURL]`](#wio-preload-pageurl)
 * [`wio update [CHANNEL]`](#wio-update-channel)
 
@@ -53,21 +52,7 @@ OPTIONS
   --sort=sort             property to sort by (prepend '-' for descending)
 ```
 
-_See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.0/src/commands/dimensions.ts)_
-
-## `wio optimize [PAGEURL]`
-
-Optimize all the rendered images.
-
-```
-USAGE
-  $ wio optimize [PAGEURL]
-
-OPTIONS
-  -h, --help  show CLI help
-```
-
-_See code: [src/commands/optimize.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.0/src/commands/optimize.ts)_
+_See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.1/src/commands/dimensions.ts)_
 
 ## `wio preload [PAGEURL]`
 
@@ -81,7 +66,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/preload.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.0/src/commands/preload.ts)_
+_See code: [src/commands/preload.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.1/src/commands/preload.ts)_
 
 ## `wio update [CHANNEL]`
 
