@@ -23,8 +23,24 @@ jobs:
       - name: Run tests
         run: yarn test
   build-tarballs:
-    name: Build tarballs
-    runs-on: ubuntu-latest
+    name: Build tarball for ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - platform: macos
+            runner: macos-latest
+            prebuiltPlatform: darwin
+            prebuiltArchitecture: x64
+          - platform: win
+            runner: ubuntu-latest
+            prebuiltPlatform: win32
+            prebuiltArchitecture: x64
+            customChromeDownload: true
+    env:
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: ${{ matrix.customChromeDownload }}
+      npm_config_platform: ${{ matrix.prebuiltPlatform }}
+      npm_config_arch: ${{ matrix.prebuiltArchitecture }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -34,23 +50,32 @@ jobs:
           node-version: 14
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build tarballs
-        run: yarn build
-      - name: Upload tarballs
+      - name: Build tarball
+        run: yarn build --targets ${{ matrix.prebuiltPlatform }}-${{ matrix.prebuiltArchitecture }}
+      - name: Upload tarball
         uses: actions/upload-artifact@v2
         with:
           name: wio-tarballs
           path: dist/
   build-installers:
     name: Build installer for ${{ matrix.platform }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
         include:
           - platform: macos
-            os: macos-latest
+            runner: macos-latest
+            prebuiltPlatform: darwin
+            prebuiltArchitecture: x64
           - platform: win
-            os: ubuntu-latest
+            runner: ubuntu-latest
+            prebuiltPlatform: win32
+            prebuiltArchitecture: x64
+            customChromeDownload: true
+    env:
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: ${{ matrix.customChromeDownload }}
+      npm_config_platform: ${{ matrix.prebuiltPlatform }}
+      npm_config_arch: ${{ matrix.prebuiltArchitecture }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -60,13 +85,13 @@ jobs:
           node-version: 14
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install build tool for Windows
+      - name: Install needed build tool for Windows
         if: ${{ matrix.platform == 'win' }}
         run: |
           sudo apt-get update
           sudo apt-get install nsis
       - name: Build installer
-        run: sudo yarn build:${{ matrix.platform }}
+        run: sudo -E yarn build:${{ matrix.platform }}
       - name: Upload installer
         uses: actions/upload-artifact@v2
         with:

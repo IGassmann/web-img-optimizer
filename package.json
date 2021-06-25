@@ -16,7 +16,8 @@
   "author": "Igor Gassmann <igor@igassmann.me> (https://igassmann.me/)",
   "files": [
     "/bin",
-    "/lib"
+    "/lib",
+    "/build"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,13 +25,14 @@
     "wio": "./bin/run"
   },
   "scripts": {
+    "postinstall": "node ./build/download-chrome.js",
     "test": "jest",
-    "build": "oclif-dev pack --targets darwin-x64,win32-x64",
+    "build": "oclif-dev pack",
     "build:macos": "oclif-dev pack:macos",
     "build:win": "oclif-dev pack:win",
     "build:deb": "oclif-dev pack:deb",
     "version": "oclif-dev readme && git add README.md",
-    "prepack": "rm -rf lib && tsc -b && oclif-dev readme"
+    "prepack": "rm -rf lib && tsc -b"
   },
   "dependencies": {
     "@oclif/command": "^1",
