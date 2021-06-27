@@ -65,7 +65,7 @@ export default class Optimize extends Command {
 
     images = this.removeDuplicates(images)
 
-    const optimizedImagesDirectory = './images/'
+    const optimizedImagesDirectory = path.join(process.cwd(), '/images/')
 
     fs.rmdirSync(optimizedImagesDirectory, {recursive: true})
     fs.mkdirSync(optimizedImagesDirectory, {recursive: true})
