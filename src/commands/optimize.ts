@@ -25,7 +25,11 @@ export default class Optimize extends Command {
     help: flags.help({char: 'h'}),
   }
 
-  static args = [{name: 'pageUrl'}]
+  static args = [{
+    name: 'pageUrl',
+    required: true,
+    description: "Page's URL from where to optimize images.",
+  }]
 
   async run() {
     const {args} = this.parse(Optimize)

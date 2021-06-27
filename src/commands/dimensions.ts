@@ -14,7 +14,11 @@ export default class Dimensions extends Command {
     ...cli.table.flags(),
   }
 
-  static args = [{name: 'pageUrl'}]
+  static args = [{
+    name: 'pageUrl',
+    required: true,
+    description: "Page's URL from where to get the image dimensions.",
+  }]
 
   async run() {
     const {args, flags} = this.parse(Dimensions)

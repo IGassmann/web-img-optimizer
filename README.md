@@ -28,17 +28,21 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`wio dimensions [PAGEURL]`](#wio-dimensions-pageurl)
-* [`wio preload [PAGEURL]`](#wio-preload-pageurl)
+* [`wio dimensions <PAGEURL>`](#wio-dimensions-pageurl)
+* [`wio optimize <PAGEURL>`](#wio-optimize-pageurl)
+* [`wio preload <PAGEURL>`](#wio-preload-pageurl)
 * [`wio update [CHANNEL]`](#wio-update-channel)
 
-## `wio dimensions [PAGEURL]`
+## `wio dimensions <PAGEURL>`
 
 Get the dimensions of all the rendered image elements.
 
 ```
 USAGE
-  $ wio dimensions [PAGEURL]
+  $ wio dimensions <PAGEURL>
+
+ARGUMENTS
+  PAGEURL  Page's URL from where to get the image dimensions.
 
 OPTIONS
   -h, --help              show CLI help
@@ -54,13 +58,33 @@ OPTIONS
 
 _See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.1/src/commands/dimensions.ts)_
 
-## `wio preload [PAGEURL]`
+## `wio optimize <PAGEURL>`
+
+Optimize all the rendered images.
+
+```
+USAGE
+  $ wio optimize <PAGEURL>
+
+ARGUMENTS
+  PAGEURL  Page's URL from where to optimize images.
+
+OPTIONS
+  -h, --help  show CLI help
+```
+
+_See code: [src/commands/optimize.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.1/src/commands/optimize.ts)_
+
+## `wio preload <PAGEURL>`
 
 Generate the preload tag for the largest image visible within the initial viewport.
 
 ```
 USAGE
-  $ wio preload [PAGEURL]
+  $ wio preload <PAGEURL>
+
+ARGUMENTS
+  PAGEURL  Page's URL to which generate the preload tag.
 
 OPTIONS
   -h, --help  show CLI help
@@ -70,7 +94,7 @@ _See code: [src/commands/preload.ts](https://github.com/IGassmann/web-img-optimi
 
 ## `wio update [CHANNEL]`
 
-update the wio CLI
+Update the wio CLI
 
 ```
 USAGE
