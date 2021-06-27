@@ -10,8 +10,8 @@ import * as imageminMozjpeg from 'imagemin-mozjpeg'
 import * as imageminGiflossy from 'imagemin-giflossy'
 import imageminPngquant from 'imagemin-pngquant'
 import * as imageminSvgo from 'imagemin-svgo'
-
 import * as imageminZopfli from 'imagemin-zopfli'
+import {ImageElement} from '../types/image-element'
 import isWebUrl from '../is-web-url'
 import customDevices from '../custom-device-descriptors'
 import isSvg from 'is-svg'
@@ -41,7 +41,7 @@ export default class Optimize extends Command {
     })
     cli.action.stop()
 
-    let images
+    let images: ImageElement[]
 
     try {
       const page = await browser.newPage()
@@ -62,6 +62,8 @@ export default class Optimize extends Command {
       if (error.toString().includes('ERR_INTERNET_DISCONNECTED')) this.error('No internet')
       throw error
     }
+
+    images = this.removeDuplicates(images)
 
     const optimizedImagesDirectory = './images/'
 
@@ -132,5 +134,11 @@ export default class Optimize extends Command {
       }
     }))
     progressBar.stop()
+  }
+
+  private removeDuplicates(images: ImageElement[]): ImageElement[] {
+    return images.filter((image, index, self) => {
+      return index === self.findIndex(foundImage => foundImage.src === image.src)
+    })
   }
 }
