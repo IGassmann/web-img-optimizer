@@ -24,8 +24,6 @@ export default class Dimensions extends Command {
   async run() {
     const {args, flags} = this.parse(Dimensions)
 
-    if (!args.pageUrl) this.error('A web page URL is required for running the command', {exit: 22})
-
     cli.action.start('Loading browser')
     const browser = await puppeteer.launch({
       args: ['--no-sandbox'],
