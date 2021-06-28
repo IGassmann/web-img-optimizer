@@ -65,9 +65,9 @@ export default class Preload extends Command {
 
         const preloadTag = `
 <link rel="preload"
-      href="${src}"
-      ${srcset && `imagesrcset="${srcset}"`}
-      ${sizes && `imagesizes="${sizes}"`}
+      href="${src}"${srcset && `
+      imagesrcset="${srcset}"`}${sizes && `
+      imagesizes="${sizes}"`}
       as="image"
 >`
         this.log("Add the following tag to the top of your page's head tag:\n", preloadTag)
