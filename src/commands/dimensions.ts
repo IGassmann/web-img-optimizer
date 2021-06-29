@@ -12,7 +12,6 @@ export default class Dimensions extends Command {
 
   static flags = {
     help: flags.help({char: 'h'}),
-    ...cli.table.flags(),
   }
 
   static args = [{
@@ -59,6 +58,7 @@ export default class Dimensions extends Command {
 
       const options: Options = {
         printLine: this.log,
+        'no-truncate': true,
         ...flags,
       }
 
