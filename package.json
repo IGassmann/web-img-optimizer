@@ -19,7 +19,6 @@
     "build:macos": "oclif-dev pack:macos",
     "build:win": "oclif-dev pack:win",
     "build:deb": "oclif-dev pack:deb",
-    "version": "oclif-dev readme && git add README.md",
     "prepack": "rm -rf lib && tsc -b"
   },
   "dependencies": {
