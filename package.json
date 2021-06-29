@@ -1,17 +1,28 @@
 {
   "name": "web-img-optimizer",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A tool for optimizing the images of a web page.",
-  "keywords": ["web", "image", "performance", "cli"],
+  "keywords": [
+    "web",
+    "image",
+    "performance",
+    "cli"
+  ],
   "license": "Unlicense",
   "homepage": "https://github.com/IGassmann/web-img-optimizer",
   "repository": "git://github.com/IGassmann/web-img-optimizer.git",
   "bugs": "https://github.com/IGassmann/web-img-optimizer/issues",
   "author": "Igor Gassmann <igor@igassmann.me> (https://igassmann.me/)",
-  "files": ["/bin", "/lib", "/build"],
+  "files": [
+    "/bin",
+    "/lib",
+    "/build"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "bin": {"wio": "./bin/run"},
+  "bin": {
+    "wio": "./bin/run"
+  },
   "scripts": {
     "postinstall": "node ./build/download-chrome.js",
     "test": "jest",
