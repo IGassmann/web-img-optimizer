@@ -7,7 +7,7 @@ A tool for optimizing the images of a web page.
 
 Download and install the installer for your system:
 
-- [macOS Installer](https://github.com/IGassmann/web-img-optimizer/releases/download/latest/wio-v0.5.0.pkg)
+- [macOS Installer](https://github.com/IGassmann/web-img-optimizer/releases/latest/download/wio-v0.5.0.pkg)
 - [Windows Installer](https://github.com/IGassmann/web-img-optimizer/releases/latest/download/wio-v0.5.0-x64.exe)
 
 # Usage
