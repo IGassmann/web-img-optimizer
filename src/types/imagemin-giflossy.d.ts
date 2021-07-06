@@ -75,7 +75,7 @@ declare module 'imagemin-giflossy' {
        * keep-empty: Preserve empty transparent frames (they are dropped by default).
        * @default 1
        */
-      optimize?: number;
+      optimize?: string;
 
       /**
        * Unoptimize GIF animations into an easy-to-edit form.

@@ -92,8 +92,8 @@ export default class Optimize extends Command {
         const extendedContentType = isSvg(imageBuffer) ? svgFileType : contentType
 
         if (extendedContentType) {
-          if (image.width && image.height && extendedContentType?.mime !== 'image/svg+xml') {
-            imageBuffer = await sharp(imageBuffer)
+          if (image.width && image.height && extendedContentType?.mime !== 'image/svg+xml' && extendedContentType?.mime !== 'image/gif') {
+            imageBuffer = await sharp(imageBuffer, {failOnError: false})
             .resize({
               width: image.width * 2,
               withoutEnlargement: true,
@@ -115,7 +115,7 @@ export default class Optimize extends Command {
               }),
               imageminGiflossy({
                 optimizationLevel: 3,
-                optimize: 3,
+                optimize: '3',
                 lossy: 80,
               }),
               imageminSvgo({
