@@ -1,39 +1,45 @@
 web-img-optimizer
 ================
 
-A tool for fetching and optimize all images of a web page.
+A tool for optimizing the images of a web page.
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/web-img-optimizer.svg)](https://npmjs.org/package/web-img-optimizer)
-[![Downloads/week](https://img.shields.io/npm/dw/web-img-optimizer.svg)](https://npmjs.org/package/web-img-optimizer)
-[![License](https://img.shields.io/npm/l/web-img-optimizer.svg)](https://github.com/IGassmann/web-img-optimizer/blob/master/package.json)
+# Installation
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+Download and install the installer for your system:
+
+- [macOS Installer](https://github.com/IGassmann/web-img-optimizer/releases/download/latest/wio-v0.5.0.pkg)
+- [Windows Installer](https://github.com/IGassmann/web-img-optimizer/releases/latest/download/wio-v0.5.0-x64.exe)
+
 # Usage
-<!-- usage -->
-```sh-session
-$ npm install -g web-img-optimizer
-$ wio COMMAND
-running command...
-$ wio (-v|--version|version)
-web-img-optimizer/0.4.1 darwin-x64 node-v14.17.0
-$ wio --help [COMMAND]
-USAGE
-  $ wio COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
+
+## Open Terminal in macOS
+
+Open Launchpad and search for **terminal**.
+
+Alternatively, you can access the terminal by pressing **⌘ + SPACE** on your keyboard and 
+searching for
+"terminal."
+
+## Open Command Prompt in Windows
+
+Click **Start** and search for "Command Prompt."
+
+Alternatively, you can also access the command prompt by pressing **Ctrl + R** on your keyboard, 
+type "cmd" and then click **OK**.
+
+
+## Commands
+
+You can use in your terminal or command prompt any of the following commands. Just type it in and 
+press enter.
+
 <!-- commands -->
 * [`wio dimensions <PAGEURL>`](#wio-dimensions-pageurl)
 * [`wio optimize <PAGEURL>`](#wio-optimize-pageurl)
 * [`wio preload <PAGEURL>`](#wio-preload-pageurl)
-* [`wio update [CHANNEL]`](#wio-update-channel)
+* [`wio update`](#wio-update-channel)
 
-## `wio dimensions <PAGEURL>`
+### `wio dimensions <PAGEURL>`
 
 Get the dimensions of all the rendered image elements.
 
@@ -45,20 +51,10 @@ ARGUMENTS
   PAGEURL  Page's URL from where to get the image dimensions.
 
 OPTIONS
-  -h, --help              show CLI help
-  -x, --extended          show extra columns
-  --columns=columns       only show provided columns (comma-separated)
-  --csv                   output is csv format [alias: --output=csv]
-  --filter=filter         filter property by partial string matching, ex: name=foo
-  --no-header             hide table header from output
-  --no-truncate           do not truncate output to fit screen
-  --output=csv|json|yaml  output in a more machine friendly format
-  --sort=sort             property to sort by (prepend '-' for descending)
+  -h, --help  show CLI help
 ```
 
-_See code: [src/commands/dimensions.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.1/src/commands/dimensions.ts)_
-
-## `wio optimize <PAGEURL>`
+### `wio optimize <PAGEURL>`
 
 Optimize all the rendered images.
 
@@ -73,9 +69,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/optimize.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.1/src/commands/optimize.ts)_
-
-## `wio preload <PAGEURL>`
+### `wio preload <PAGEURL>`
 
 Generate the preload tag for the largest image visible within the initial viewport.
 
@@ -90,16 +84,11 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/preload.ts](https://github.com/IGassmann/web-img-optimizer/blob/v0.4.1/src/commands/preload.ts)_
-
-## `wio update [CHANNEL]`
+### `wio update`
 
 Update the wio CLI
 
 ```
 USAGE
-  $ wio update [CHANNEL]
+  $ wio update
 ```
-
-_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.3.10/src/commands/update.ts)_
-<!-- commandsstop -->
