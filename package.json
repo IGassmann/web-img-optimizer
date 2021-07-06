@@ -49,6 +49,7 @@
     "imagemin-zopfli": "^7.0.0",
     "node-fetch": "^2.6.1",
     "puppeteer": "^10.0.0",
+    "registry-js": "^1.15.1",
     "sharp": "^0.28.3",
     "tslib": "^2.3.0"
   },

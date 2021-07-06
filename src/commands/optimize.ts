@@ -12,7 +12,8 @@ import imageminPngquant from 'imagemin-pngquant'
 import * as imageminSvgo from 'imagemin-svgo'
 import * as imageminZopfli from 'imagemin-zopfli'
 import {ImageElement} from '../types/image-element'
-import isWebUrl from '../is-web-url'
+import isWebUrl from '../utils/is-web-url'
+import downloadFolder from '../utils/download-folder'
 import customDevices from '../custom-device-descriptors'
 import isSvg from 'is-svg'
 import * as sharp from 'sharp'
@@ -34,7 +35,7 @@ export default class Optimize extends Command {
   async run() {
     const {args} = this.parse(Optimize)
 
-    cli.action.start('Loading browser', '', {stdout: true})
+    cli.action.start('Loading browser')
     const browser = await puppeteer.launch({
       args: ['--no-sandbox'],
       timeout: 10000,
@@ -48,7 +49,7 @@ export default class Optimize extends Command {
 
       await page.emulate(customDevices['Common Desktop'])
 
-      cli.action.start('Loading URL', '', {stdout: true})
+      cli.action.start('Loading URL')
       page.once('load', () => cli.action.stop())
       await page.goto(args.pageUrl, {waitUntil: 'load', timeout: 60000})
 
@@ -65,7 +66,7 @@ export default class Optimize extends Command {
 
     images = this.removeDuplicates(images)
 
-    const optimizedImagesDirectory = path.join(process.cwd(), '/images/')
+    const optimizedImagesDirectory = path.join(downloadFolder(), '/optimized-images/')
 
     fs.rmdirSync(optimizedImagesDirectory, {recursive: true})
     fs.mkdirSync(optimizedImagesDirectory, {recursive: true})
@@ -134,6 +135,9 @@ export default class Optimize extends Command {
       }
     }))
     progressBar.stop()
+
+    this.log('Optimized images available at:')
+    await cli.url(optimizedImagesDirectory, `file://${optimizedImagesDirectory}`)
   }
 
   private removeDuplicates(images: ImageElement[]): ImageElement[] {
