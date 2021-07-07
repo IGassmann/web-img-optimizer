@@ -3768,15 +3768,6 @@ imagemin-mozjpeg@^9.0.0:
     is-jpg "^2.0.0"
     mozjpeg "^7.0.0"
 
-imagemin-pngcrush@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/imagemin-pngcrush/-/imagemin-pngcrush-7.0.0.tgz#c29acd9af3287a2a8b91669476a841481eb739b5"
-  integrity sha512-yOp5f8RH2vd2x6B7P8WCprX1Cm3LjXqBu30wy5fJoEBrwwkyx8H2+vz1g/3FkSkldNURHcc0NmJ6r0waUNQTrw==
-  dependencies:
-    exec-buffer "^3.0.0"
-    is-png "^2.0.0"
-    pngcrush-bin "^5.0.0"
-
 imagemin-pngquant@^9.0.2:
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/imagemin-pngquant/-/imagemin-pngquant-9.0.2.tgz#38155702b0cc4f60f671ba7c2b086ea3805d9567"
@@ -5810,15 +5801,6 @@ pkg-dir@4.2.0, pkg-dir@^4.2.0:
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
-
-pngcrush-bin@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/pngcrush-bin/-/pngcrush-bin-5.0.1.tgz#8d3bc22f88d5335c187a6a2bf34fa13033bed87e"
-  integrity sha512-fe11NCaVzSrMyteBKuBUFs4g382FHuSOzK6TI/HJdPhEFA4j5QJM0lEhtiZkNempOES7rS+LlN1dXIzU03MXnQ==
-  dependencies:
-    bin-build "^3.0.0"
-    bin-wrapper "^4.0.0"
-    logalot "^2.0.0"
 
 pngquant-bin@^6.0.0:
   version "6.0.0"
