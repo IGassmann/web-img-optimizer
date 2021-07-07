@@ -120,10 +120,10 @@ jobs:
           echo "OSX_KEYCHAIN=$KEYCHAIN_PATH" >> $GITHUB_ENV
       - name: Build installer
         run: |
-        echo "${{ env.OSX_KEYCHAIN }}"
-        OSX_KEYCHAIN="${{ env.OSX_KEYCHAIN }}"
-        echo $OSX_KEYCHAIN
-        sudo -E yarn build:${{ matrix.platform }}
+          echo "${{ env.OSX_KEYCHAIN }}"
+          OSX_KEYCHAIN="${{ env.OSX_KEYCHAIN }}"
+          echo $OSX_KEYCHAIN
+          sudo -E yarn build:${{ matrix.platform }}
       - name: Upload installer
         uses: actions/upload-artifact@v2
         with:
