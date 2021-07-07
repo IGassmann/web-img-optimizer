@@ -106,15 +106,15 @@ jobs:
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
 
           # Create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $OSX_KEYCHAIN
-          security set-keychain-settings -lut 21600 $OSX_KEYCHAIN
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $OSX_KEYCHAIN
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
           # Import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $OSX_KEYCHAIN -T $PKGBUILD_PATH
-          security set-key-partition-list -S apple-tool:,apple:,pkgbuild: -s -k "$KEYCHAIN_PASSWORD" $OSX_KEYCHAIN
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH -T $PKGBUILD_PATH
+          security set-key-partition-list -S apple-tool:,apple:,pkgbuild: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 #          security find-identity -v
-          security list-keychain -d user -s $OSX_KEYCHAIN
+          security list-keychain -d user -s $KEYCHAIN_PATH
 
 
           echo "OSX_KEYCHAIN=$KEYCHAIN_PATH" >> $GITHUB_ENV
