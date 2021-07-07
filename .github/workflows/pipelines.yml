@@ -117,9 +117,7 @@ jobs:
           # Set OSX_KEYCHAIN environment variable
           echo "OSX_KEYCHAIN=$KEYCHAIN_PATH" >> $GITHUB_ENV
       - name: Build installer
-        run: |
-          OSX_KEYCHAIN="${{ env.OSX_KEYCHAIN }}"
-          sudo -E yarn build:${{ matrix.platform }}
+        run: OSX_KEYCHAIN="${{ env.OSX_KEYCHAIN }}" sudo -E yarn build:${{ matrix.platform }}
       - name: Upload installer
         uses: actions/upload-artifact@v2
         with:
