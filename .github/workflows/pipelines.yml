@@ -76,7 +76,6 @@ jobs:
       PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: ${{ matrix.customChromeDownload }}
       npm_config_platform: ${{ matrix.prebuiltPlatform }}
       npm_config_arch: ${{ matrix.prebuiltArchitecture }}
-      OSX_KEYCHAIN: $RUNNER_TEMP/app-signing.keychain-db
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -101,6 +100,7 @@ jobs:
           # Create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           PKGBUILD_PATH=$(which pkgbuild)
+          KEYCHAIN_PATH: $RUNNER_TEMP/app-signing.keychain-db
 
           # Import certificate
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
@@ -113,10 +113,17 @@ jobs:
           # Import certificate to keychain
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $OSX_KEYCHAIN -T $PKGBUILD_PATH
           security set-key-partition-list -S apple-tool:,apple:,pkgbuild: -s -k "$KEYCHAIN_PASSWORD" $OSX_KEYCHAIN
-          security find-identity -v
+#          security find-identity -v
           security list-keychain -d user -s $OSX_KEYCHAIN
+
+
+          echo "OSX_KEYCHAIN=$KEYCHAIN_PATH" >> $GITHUB_ENV
       - name: Build installer
-        run: sudo -E yarn build:${{ matrix.platform }}
+        run: |
+        echo "${{ env.OSX_KEYCHAIN }}"
+        OSX_KEYCHAIN="${{ env.OSX_KEYCHAIN }}"
+        echo $OSX_KEYCHAIN
+        sudo -E yarn build:${{ matrix.platform }}
       - name: Upload installer
         uses: actions/upload-artifact@v2
         with:
