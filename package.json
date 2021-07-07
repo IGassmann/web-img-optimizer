@@ -73,6 +73,14 @@
     "ts-node": "^10.0.0",
     "typescript": "^4.3.3"
   },
+  "resolutions": {
+    "**/os-filter-obj": "IGassmann/os-filter-obj#master",
+    "**/pngquant-bin": "IGassmann/pngquant-bin#main",
+    "**/zopflipng-bin": "IGassmann/zopflipng-bin#main",
+    "**/mozjpeg-bin": "IGassmann/mozjpeg-bin#main",
+    "**/mozjpeg": "IGassmann/mozjpeg-bin#main",
+    "**/giflossy": "IGassmann/gifsicle-bin#main"
+  },
   "engines": {
     "node": "^14.1.0"
   },
