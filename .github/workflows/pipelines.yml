@@ -76,6 +76,7 @@ jobs:
       PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: ${{ matrix.customChromeDownload }}
       npm_config_platform: ${{ matrix.prebuiltPlatform }}
       npm_config_arch: ${{ matrix.prebuiltArchitecture }}
+      OSX_KEYCHAIN: $RUNNER_TEMP/app-signing.keychain-db
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -90,6 +91,30 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install nsis
+      - name: Install Apple certificate for macOS
+        if: ${{ matrix.platform == 'macos' }}
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # Create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PKGBUILD_PATH=$(which pkgbuild)
+
+          # Import certificate
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+
+          # Create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $OSX_KEYCHAIN
+          security set-keychain-settings -lut 21600 $OSX_KEYCHAIN
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $OSX_KEYCHAIN
+
+          # Import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $OSX_KEYCHAIN -T $PKGBUILD_PATH
+          security set-key-partition-list -S apple-tool:,apple:,pkgbuild: -s -k "$KEYCHAIN_PASSWORD" $OSX_KEYCHAIN
+          security find-identity -v
+          security list-keychain -d user -s $OSX_KEYCHAIN
       - name: Build installer
         run: sudo -E yarn build:${{ matrix.platform }}
       - name: Upload installer

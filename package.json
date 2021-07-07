@@ -98,6 +98,7 @@
       }
     },
     "macos": {
+      "sign": "Developer ID Installer: Igor Gassmann (FBTMM9G54Z)",
       "identifier": "me.igassmann.web-img-optimizer"
     }
   }
