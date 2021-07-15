@@ -7,12 +7,12 @@ export interface ImageElement {
   /**
    * The width of the object.
    */
-  width: number;
+  width?: number;
 
   /**
    * The height of the object.
    */
-  height: number;
+  height?: number;
 
   /**
    * A text alternative to the graphic.

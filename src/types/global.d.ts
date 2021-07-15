@@ -1,10 +1,8 @@
+import { ImageElement } from './image-element';
+
 declare global {
   interface Window {
-    largestImageElement: {
-      src: string;
-      srcset?: string;
-      sizes?: string;
-    };
+    largestImageElement: ImageElement;
   }
   interface PerformanceEntry {
     element: HTMLUnknownElement;
