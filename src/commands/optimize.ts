@@ -70,7 +70,7 @@ export default class Optimize extends Command {
       throw error;
     }
 
-    images = this.removeDuplicates(images);
+    images = this.removeDuplicateImages(images);
 
     const optimizedImagesDirectory = path.join(getDownloadFolder(), '/optimized-images/');
 
@@ -150,7 +150,7 @@ export default class Optimize extends Command {
     await cli.url(optimizedImagesDirectory, `file://${optimizedImagesDirectory}`);
   }
 
-  private removeDuplicates(images: ImageElement[]): ImageElement[] {
+  private removeDuplicateImages(images: ImageElement[]): ImageElement[] {
     return images.filter((image, index, self) => {
       return index === self.findIndex((foundImage) => foundImage.src === image.src);
     });
