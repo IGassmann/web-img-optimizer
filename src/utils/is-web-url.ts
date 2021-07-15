@@ -1,15 +1,3 @@
-const isWebUrl = (string: string) => {
-  const webProtocols = ['http', 'https'];
-  try {
-    const url = new URL(string);
-    return webProtocols
-      ? url.protocol
-        ? webProtocols.map((webProtocol) => `${webProtocol.toLowerCase()}:`).includes(url.protocol)
-        : false
-      : true;
-  } catch (error) {
-    return false;
-  }
-};
+const isWebUrl = (string: string) => /(http(s?)):\/\//i.test(string);
 
 export default isWebUrl;
