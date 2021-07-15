@@ -26,6 +26,7 @@
   "scripts": {
     "postinstall": "node ./build/download-chrome.js",
     "test": "jest",
+    "format": "prettier --ignore-path ./.gitignore --write .",
     "build": "oclif-dev pack",
     "build:macos": "oclif-dev pack:macos",
     "build:win": "oclif-dev pack:win",
@@ -68,7 +69,9 @@
     "eslint": "^5.13",
     "eslint-config-oclif": "^3.1",
     "eslint-config-oclif-typescript": "^0.1",
+    "eslint-config-prettier": "^8.3.0",
     "jest": "^27.0.4",
+    "prettier": "2.3.2",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.3"
