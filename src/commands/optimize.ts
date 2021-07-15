@@ -13,7 +13,7 @@ import * as imageminSvgo from 'imagemin-svgo';
 import * as imageminZopfli from 'imagemin-zopfli';
 import { ImageElement } from '../types/image-element';
 import isWebUrl from '../utils/is-web-url';
-import downloadFolder from '../utils/download-folder';
+import getDownloadFolder from '../utils/get-download-folder';
 import customDevices from '../custom-device-descriptors';
 import isSvg from 'is-svg';
 import * as sharp from 'sharp';
@@ -72,7 +72,7 @@ export default class Optimize extends Command {
 
     images = this.removeDuplicates(images);
 
-    const optimizedImagesDirectory = path.join(downloadFolder(), '/optimized-images/');
+    const optimizedImagesDirectory = path.join(getDownloadFolder(), '/optimized-images/');
 
     fs.rmdirSync(optimizedImagesDirectory, { recursive: true });
     fs.mkdirSync(optimizedImagesDirectory, { recursive: true });
