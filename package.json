@@ -26,13 +26,14 @@
   "scripts": {
     "postinstall": "node ./build/download-chrome.js",
     "test": "jest",
-    "lint": "eslint . --ext .js,.ts --fix --ignore-path ./.gitignore",
     "format": "prettier . --write --ignore-path ./.gitignore",
+    "lint": "eslint . --ext .js,.ts --fix --ignore-path ./.gitignore",
     "build": "oclif-dev pack",
     "build:macos": "oclif-dev pack:macos",
     "build:win": "oclif-dev pack:win",
     "build:deb": "oclif-dev pack:deb",
-    "prepack": "rm -rf lib && tsc -b"
+    "prepack": "rm -rf lib && tsc -b",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@oclif/command": "^1",
@@ -71,7 +72,9 @@
     "eslint-config-oclif": "^3.1",
     "eslint-config-oclif-typescript": "^0.1",
     "eslint-config-prettier": "^8.3.0",
+    "husky": ">=6",
     "jest": "^27.0.4",
+    "lint-staged": ">=10",
     "prettier": "2.3.2",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
@@ -105,5 +108,9 @@
       "sign": "Developer ID Installer: Igor Gassmann (FBTMM9G54Z)",
       "identifier": "me.igassmann.web-img-optimizer"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --cache --fix",
+    "*.gitignore": "prettier --write"
   }
 }
