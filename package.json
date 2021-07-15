@@ -26,7 +26,8 @@
   "scripts": {
     "postinstall": "node ./build/download-chrome.js",
     "test": "jest",
-    "format": "prettier --ignore-path ./.gitignore --write .",
+    "lint": "eslint . --ext .js,.ts --fix --ignore-path ./.gitignore",
+    "format": "prettier . --write --ignore-path ./.gitignore",
     "build": "oclif-dev pack",
     "build:macos": "oclif-dev pack:macos",
     "build:win": "oclif-dev pack:win",
