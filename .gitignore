@@ -1,6 +1,13 @@
+# Node dependencies
+node_modules/
+
+# Log files
 *.log
+
+# Compiled sources
 /dist/
 /lib/
 /tmp/
+
+# Code coverage output
 /coverage/
-node_modules
