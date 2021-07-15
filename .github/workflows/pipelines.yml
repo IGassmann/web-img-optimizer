@@ -2,10 +2,10 @@ name: CI/CD Pipelines
 
 on:
   push:
-    branches: [ main ]
-    tags: [ v* ]
+    branches: [main]
+    tags: [v*]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -144,29 +144,29 @@ jobs:
         run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-#  publish_to_github_packages:
-#    name: Publish to GitHub packages
-#    if: startsWith(github.ref, 'refs/tags/v')
-#    needs: [ test, build-tarballs, build-installers ]
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: read
-#      packages: write
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: 14
-#          registry-url: 'https://npm.pkg.github.com'
-#          scope: '@igassmann'
-#      - name: Install dependencies
-#        run: yarn install --frozen-lockfile
-#      - name: Publish to GitHub Packages
-#        run: npm publish
-#        env:
-#          NODE_AUTH_TOKEN: ${{ github.token }}
+  #  publish_to_github_packages:
+  #    name: Publish to GitHub packages
+  #    if: startsWith(github.ref, 'refs/tags/v')
+  #    needs: [ test, build-tarballs, build-installers ]
+  #    runs-on: ubuntu-latest
+  #    permissions:
+  #      contents: read
+  #      packages: write
+  #    steps:
+  #      - name: Checkout repository
+  #        uses: actions/checkout@v2
+  #      - name: Setup Node.js
+  #        uses: actions/setup-node@v2
+  #        with:
+  #          node-version: 14
+  #          registry-url: 'https://npm.pkg.github.com'
+  #          scope: '@igassmann'
+  #      - name: Install dependencies
+  #        run: yarn install --frozen-lockfile
+  #      - name: Publish to GitHub Packages
+  #        run: npm publish
+  #        env:
+  #          NODE_AUTH_TOKEN: ${{ github.token }}
   publish_tarballs:
     name: Publish tarballs
     if: startsWith(github.ref, 'refs/tags/v')

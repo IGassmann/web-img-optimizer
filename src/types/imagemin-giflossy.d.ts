@@ -1,7 +1,7 @@
 declare module 'imagemin-giflossy' {
-  import {Plugin} from 'imagemin'
+  import { Plugin } from 'imagemin';
 
-  function imageminGiflossy(options?: imageminGiflossy.Options): Plugin
+  function imageminGiflossy(options?: imageminGiflossy.Options): Plugin;
 
   namespace imageminGiflossy {
     interface Options {

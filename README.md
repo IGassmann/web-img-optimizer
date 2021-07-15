@@ -1,5 +1,4 @@
-web-img-optimizer
-================
+# web-img-optimizer
 
 A tool for optimizing the images of a web page.
 
@@ -16,7 +15,7 @@ Download and install the installer for your system:
 
 Open Launchpad and search for **terminal**.
 
-Alternatively, you can access the terminal by pressing **⌘ + SPACE** on your keyboard and 
+Alternatively, you can access the terminal by pressing **⌘ + SPACE** on your keyboard and
 searching for
 "terminal."
 
@@ -24,20 +23,20 @@ searching for
 
 Click **Start** and search for "Command Prompt."
 
-Alternatively, you can also access the command prompt by pressing **Ctrl + R** on your keyboard, 
+Alternatively, you can also access the command prompt by pressing **Ctrl + R** on your keyboard,
 type "cmd" and then click **OK**.
-
 
 ## Commands
 
-You can use in your terminal or command prompt any of the following commands. Just type it in and 
+You can use in your terminal or command prompt any of the following commands. Just type it in and
 press enter.
 
 <!-- commands -->
-* [`wio dimensions <PAGEURL>`](#wio-dimensions-pageurl)
-* [`wio optimize <PAGEURL>`](#wio-optimize-pageurl)
-* [`wio preload <PAGEURL>`](#wio-preload-pageurl)
-* [`wio update`](#wio-update-channel)
+
+- [`wio dimensions <PAGEURL>`](#wio-dimensions-pageurl)
+- [`wio optimize <PAGEURL>`](#wio-optimize-pageurl)
+- [`wio preload <PAGEURL>`](#wio-preload-pageurl)
+- [`wio update`](#wio-update)
 
 ### `wio dimensions <PAGEURL>`
 

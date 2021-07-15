@@ -1,6 +1,5 @@
-import 'svgo'
+import 'svgo';
 
 declare module 'svgo' {
-  function extendDefaultPlugins(plugins: string[]): PluginConfig[]
+  function extendDefaultPlugins(plugins: string[]): PluginConfig[];
 }
-
