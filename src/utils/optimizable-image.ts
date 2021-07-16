@@ -1,12 +1,12 @@
 import * as fileType from 'file-type';
-import * as imagemin from 'imagemin';
-import * as imageminGiflossy from 'imagemin-giflossy';
-import * as imageminMozjpeg from 'imagemin-mozjpeg';
+import imagemin from 'imagemin';
+import imageminGiflossy from 'imagemin-giflossy';
+import imageminMozjpeg from 'imagemin-mozjpeg';
 import imageminPngquant from 'imagemin-pngquant';
-import * as imageminSvgo from 'imagemin-svgo';
-import * as imageminZopfli from 'imagemin-zopfli';
+import imageminSvgo from 'imagemin-svgo';
+import imageminZopfli from 'imagemin-zopfli';
 import isSvg from 'is-svg';
-import * as sharp from 'sharp';
+import sharp from 'sharp';
 import { extendDefaultPlugins } from 'svgo';
 
 export default class OptimizableImage {

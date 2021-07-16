@@ -1,4 +1,4 @@
-import * as puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer';
 import DeviceType from './device-type';
 export { default as DeviceType } from './device-type';
 import customDevices from './custom-device-descriptors';
