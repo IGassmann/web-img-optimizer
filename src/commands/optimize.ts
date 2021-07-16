@@ -29,6 +29,8 @@ export default class Optimize extends Command {
 
     const imageElements = await this.getImageElements(args.pageUrl);
 
+    if (imageElements.length === 0) return this.log('This page contains no image.');
+
     const outputDirectory = path.join(getDownloadFolder(), '/optimized-images/');
 
     // Reset output directory

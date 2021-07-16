@@ -42,17 +42,16 @@ export default class Preload extends Command {
         }
       };
       const largestImageElement = await page.evaluate(getLargestImageElement);
+      browser.close();
 
       if (largestImageElement) {
         this.printPreloadTag(largestImageElement);
       } else {
-        this.log("No image to preload: the largest element isn't an image.");
+        this.log('No image to preload. The largest element isn’t an image.');
       }
-
-      browser.close();
     } catch (error) {
       browser.close();
-      if (error.toString().includes('ERR_INTERNET_DISCONNECTED')) this.error('No internet');
+      if (error.toString().includes('ERR_INTERNET_DISCONNECTED')) this.error('No internet.');
       throw error;
     }
   }

@@ -35,15 +35,18 @@ export default class Dimensions extends Command {
         });
       };
       const images: ImageElement[] = await page.evaluate(getImageElements);
+      browser.close();
 
       const imagesWithDimensions = images.filter((image) => image.height && image.width);
 
-      this.printImageDimensions(imagesWithDimensions);
-
-      browser.close();
+      if (imagesWithDimensions.length !== 0) {
+        this.printImageDimensions(imagesWithDimensions);
+      } else {
+        this.log('This page contains no image.');
+      }
     } catch (error) {
       browser.close();
-      if (error.toString().includes('ERR_INTERNET_DISCONNECTED')) this.error('No internet');
+      if (error.toString().includes('ERR_INTERNET_DISCONNECTED')) this.error('No internet.');
       throw error;
     }
   }
