@@ -1,22 +1,13 @@
 import { Command, flags } from '@oclif/command';
 import { cli } from 'cli-ux';
-import * as path from 'path';
 import * as fs from 'fs';
 import fetch from 'node-fetch';
-import * as fileType from 'file-type';
-import * as imagemin from 'imagemin';
-import * as imageminMozjpeg from 'imagemin-mozjpeg';
-import * as imageminGiflossy from 'imagemin-giflossy';
-import imageminPngquant from 'imagemin-pngquant';
-import * as imageminSvgo from 'imagemin-svgo';
-import * as imageminZopfli from 'imagemin-zopfli';
-import HeadlessBrowser, { DeviceType } from '../utils/browser';
+import * as path from 'path';
+import OptimizableImage from '../utils/optimizable-image';
 import { ImageElement } from '../types/image-element';
-import isWebUrl from '../utils/is-web-url';
+import HeadlessBrowser, { DeviceType } from '../utils/browser';
 import getDownloadFolder from '../utils/get-download-folder';
-import isSvg from 'is-svg';
-import * as sharp from 'sharp';
-import { extendDefaultPlugins } from 'svgo';
+import isWebUrl from '../utils/is-web-url';
 
 export default class Optimize extends Command {
   static description = 'Optimize all the rendered images.';
@@ -67,68 +58,27 @@ export default class Optimize extends Command {
 
     let index = 1;
 
-    cli.progress;
     const progressBar = cli.progress({
       format: 'Optimizing images... [{bar}] | {value}/{total}',
     });
     progressBar.start(uniqueImages.length);
 
+    // Optimize images in parallel
     await Promise.all(
       uniqueImages.map(async (image) => {
         if (isWebUrl(image.src)) {
           const response = await fetch(image.src);
-          let imageBuffer = await response.buffer();
+          const imageBuffer = await response.buffer();
 
-          const contentType = await fileType.fromBuffer(imageBuffer);
-          const svgFileType = {
-            mime: 'image/svg+xml',
-            ext: 'svg',
-          };
-          const extendedContentType = isSvg(imageBuffer) ? svgFileType : contentType;
+          const optimizableImage = await OptimizableImage.fromBuffer(imageBuffer);
+          await optimizableImage.optimize(image.width, image.height);
 
-          if (extendedContentType) {
-            if (
-              image.width &&
-              image.height &&
-              extendedContentType?.mime !== 'image/svg+xml' &&
-              extendedContentType?.mime !== 'image/gif'
-            ) {
-              imageBuffer = await sharp(imageBuffer, { failOnError: false })
-                .resize({
-                  width: image.width * 2,
-                  withoutEnlargement: true,
-                })
-                .toBuffer();
-            }
-
-            const minifiedImageBuffer = await imagemin.buffer(imageBuffer, {
-              plugins: [
-                imageminPngquant({
-                  quality: [0.65, 0.8],
-                  strip: true,
-                }),
-                imageminZopfli({
-                  more: true,
-                }),
-                imageminMozjpeg({
-                  quality: 73,
-                }),
-                imageminGiflossy({
-                  optimizationLevel: 3,
-                  optimize: '3',
-                  lossy: 80,
-                }),
-                imageminSvgo({
-                  multipass: true,
-                  plugins: extendDefaultPlugins(['convertStyleToAttrs', 'removeDimensions']),
-                }),
-              ],
-            });
-
-            const fileName = `image-${index++}.${extendedContentType?.ext}`;
-            fs.writeFileSync(path.join(optimizedImagesDirectory, fileName), minifiedImageBuffer);
-            progressBar.update(index - 1);
-          }
+          const fileName = `image-${index++}.${optimizableImage.contentType?.ext}`;
+          fs.writeFileSync(
+            path.join(optimizedImagesDirectory, fileName),
+            optimizableImage.toBuffer()
+          );
+          progressBar.update(index - 1);
         }
       })
     );
