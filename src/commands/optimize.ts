@@ -3,11 +3,11 @@ import { cli } from 'cli-ux';
 import * as fs from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
-import OptimizableImage from '../utils/optimizable-image';
 import { ImageElement } from '../types/image-element';
 import HeadlessBrowser, { DeviceType } from '../utils/browser';
 import getDownloadFolder from '../utils/get-download-folder';
 import isWebUrl from '../utils/is-web-url';
+import OptimizableImage from '../utils/optimizable-image';
 
 export default class Optimize extends Command {
   static description = 'Optimize all the rendered images.';
@@ -27,11 +27,48 @@ export default class Optimize extends Command {
   async run() {
     const { args } = this.parse(Optimize);
 
-    const browser = await HeadlessBrowser.launch();
+    const imageElements = await this.getImageElements(args.pageUrl);
 
+    const outputDirectory = path.join(getDownloadFolder(), '/optimized-images/');
+
+    // Reset output directory
+    fs.rmdirSync(outputDirectory, { recursive: true });
+    fs.mkdirSync(outputDirectory, { recursive: true });
+
+    let index = 1;
+
+    const progressBar = cli.progress({
+      format: 'Optimizing images... [{bar}] | {value}/{total}',
+    });
+    progressBar.start(imageElements.length);
+
+    // Optimize images in parallel
+    await Promise.all(
+      imageElements.map(async (image) => {
+        if (isWebUrl(image.src)) {
+          const response = await fetch(image.src);
+          const imageBuffer = await response.buffer();
+
+          const optimizableImage = await OptimizableImage.fromBuffer(imageBuffer);
+          await optimizableImage.optimize(image.width, image.height);
+
+          const fileName = `image-${index++}.${optimizableImage.contentType?.ext}`;
+          fs.writeFileSync(path.join(outputDirectory, fileName), optimizableImage.toBuffer());
+          progressBar.update(index - 1);
+        }
+      })
+    );
+    progressBar.stop();
+
+    this.log('Optimized images available at:');
+    await cli.url(outputDirectory, `file://${outputDirectory}`);
+  }
+
+  private async getImageElements(pageUrl: string): Promise<ImageElement[]> {
+    const browser = await HeadlessBrowser.launch();
     let images: ImageElement[];
     try {
-      const page = await browser.openPage(args.pageUrl, DeviceType.MOBILE);
+      const page = await browser.openPage(pageUrl, DeviceType.MOBILE);
 
       // Serializable function that is evaluated on the browser
       const getImageElements = () => {
@@ -49,43 +86,7 @@ export default class Optimize extends Command {
       throw error;
     }
 
-    const uniqueImages = this.removeDuplicateImages(images);
-
-    const optimizedImagesDirectory = path.join(getDownloadFolder(), '/optimized-images/');
-
-    fs.rmdirSync(optimizedImagesDirectory, { recursive: true });
-    fs.mkdirSync(optimizedImagesDirectory, { recursive: true });
-
-    let index = 1;
-
-    const progressBar = cli.progress({
-      format: 'Optimizing images... [{bar}] | {value}/{total}',
-    });
-    progressBar.start(uniqueImages.length);
-
-    // Optimize images in parallel
-    await Promise.all(
-      uniqueImages.map(async (image) => {
-        if (isWebUrl(image.src)) {
-          const response = await fetch(image.src);
-          const imageBuffer = await response.buffer();
-
-          const optimizableImage = await OptimizableImage.fromBuffer(imageBuffer);
-          await optimizableImage.optimize(image.width, image.height);
-
-          const fileName = `image-${index++}.${optimizableImage.contentType?.ext}`;
-          fs.writeFileSync(
-            path.join(optimizedImagesDirectory, fileName),
-            optimizableImage.toBuffer()
-          );
-          progressBar.update(index - 1);
-        }
-      })
-    );
-    progressBar.stop();
-
-    this.log('Optimized images available at:');
-    await cli.url(optimizedImagesDirectory, `file://${optimizedImagesDirectory}`);
+    return this.removeDuplicateImages(images);
   }
 
   private removeDuplicateImages(images: ImageElement[]): ImageElement[] {
