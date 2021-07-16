@@ -91,3 +91,9 @@ Update the wio CLI
 USAGE
   $ wio update
 ```
+
+## Contributing
+
+Contributions are always welcome!
+
+See `./docs/CONTRIBUTING.md`[`./docs/CONTRIBUTING.md`] for ways to get started.
