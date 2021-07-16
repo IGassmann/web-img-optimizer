@@ -1,7 +1,7 @@
 import { Command, flags } from '@oclif/command';
 import { cli } from 'cli-ux';
 import * as puppeteer from 'puppeteer';
-import customDevices from '../custom-device-descriptors';
+import customDevices from '../utils/browser/custom-device-descriptors';
 import { ImageElement } from '../types/image-element';
 
 function calculateLargestImageElement() {

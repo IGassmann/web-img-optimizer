@@ -1,11 +1,9 @@
 import { Command, flags } from '@oclif/command';
 import { cli } from 'cli-ux';
 import { table } from 'cli-ux/lib/styled/table';
-import * as puppeteer from 'puppeteer';
+import HeadlessBrowser from '../utils/browser';
+import DeviceType from '../utils/browser/device-type';
 import { ImageElement } from '../types/image-element';
-import customDevices from '../custom-device-descriptors';
-import Columns = table.Columns;
-import Options = table.Options;
 
 export default class Dimensions extends Command {
   static description = 'Get the dimensions of all the rendered image elements.';
@@ -23,53 +21,47 @@ export default class Dimensions extends Command {
   ];
 
   async run() {
-    const { args, flags } = this.parse(Dimensions);
+    const { args } = this.parse(Dimensions);
 
-    cli.action.start('Loading browser');
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox'],
-      timeout: 10000,
-    });
-    cli.action.stop();
+    const browser = await HeadlessBrowser.launch();
 
     try {
-      const page = await browser.newPage();
+      const page = await browser.openPage(args.pageUrl, DeviceType.MOBILE);
 
-      await page.emulate(customDevices['Moto G4']);
-
-      cli.action.start('Loading URL');
-      page.once('load', () => cli.action.stop());
-      await page.goto(args.pageUrl, { waitUntil: 'load', timeout: 60000 });
-
-      const images: ImageElement[] = await page.evaluate(() => {
+      // Serializable function that is evaluated on the browser
+      const getImageElements = () => {
         const imageElements = document.querySelectorAll<HTMLImageElement>('body img');
         return [...imageElements].map(({ src, width, height, alt }) => {
           return { src, width, height, alt };
         });
-      });
+      };
+
+      const images: ImageElement[] = await page.evaluate(getImageElements);
 
       const imagesWithDimensions = images.filter((image) => image.height && image.width);
 
-      const columns: Columns<typeof imagesWithDimensions[number]> = {
-        width: {},
-        height: {},
-        src: {},
-        alt: { extended: true },
-      };
+      this.outputImageDimensions(imagesWithDimensions);
 
-      const options: Options = {
-        printLine: this.log,
-        'no-truncate': true,
-        ...flags,
-      };
-
-      cli.table(imagesWithDimensions, columns, options);
-
-      await browser.close();
+      browser.close();
     } catch (error) {
       browser.close();
       if (error.toString().includes('ERR_INTERNET_DISCONNECTED')) this.error('No internet');
       throw error;
     }
+  }
+
+  private outputImageDimensions(imagesWithDimensions: ImageElement[]) {
+    const columns: table.Columns<typeof imagesWithDimensions[number]> = {
+      width: {},
+      height: {},
+      src: {},
+    };
+
+    const options: table.Options = {
+      printLine: this.log,
+      'no-truncate': true,
+    };
+
+    cli.table(imagesWithDimensions, columns, options);
   }
 }

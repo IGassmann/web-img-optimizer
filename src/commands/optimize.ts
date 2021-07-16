@@ -14,7 +14,7 @@ import * as imageminZopfli from 'imagemin-zopfli';
 import { ImageElement } from '../types/image-element';
 import isWebUrl from '../utils/is-web-url';
 import getDownloadFolder from '../utils/get-download-folder';
-import customDevices from '../custom-device-descriptors';
+import customDevices from '../utils/browser/custom-device-descriptors';
 import isSvg from 'is-svg';
 import * as sharp from 'sharp';
 import { extendDefaultPlugins } from 'svgo';
