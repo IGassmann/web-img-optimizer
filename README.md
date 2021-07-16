@@ -96,4 +96,4 @@ USAGE
 
 Contributions are always welcome!
 
-See `./docs/CONTRIBUTING.md`[`./docs/CONTRIBUTING.md`] for ways to get started.
+See [`./docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for ways to get started.
