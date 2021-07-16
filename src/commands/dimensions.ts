@@ -1,8 +1,7 @@
 import { Command, flags } from '@oclif/command';
 import { cli } from 'cli-ux';
 import { table } from 'cli-ux/lib/styled/table';
-import HeadlessBrowser from '../utils/browser';
-import DeviceType from '../utils/browser/device-type';
+import HeadlessBrowser, { DeviceType } from '../utils/browser';
 import { ImageElement } from '../types/image-element';
 
 export default class Dimensions extends Command {
@@ -35,7 +34,6 @@ export default class Dimensions extends Command {
           return { src, width, height, alt };
         });
       };
-
       const images: ImageElement[] = await page.evaluate(getImageElements);
 
       const imagesWithDimensions = images.filter((image) => image.height && image.width);

@@ -1,7 +1,6 @@
 import { Command, flags } from '@oclif/command';
 import { cli } from 'cli-ux';
 import * as path from 'path';
-import * as puppeteer from 'puppeteer';
 import * as fs from 'fs';
 import fetch from 'node-fetch';
 import * as fileType from 'file-type';
@@ -11,10 +10,10 @@ import * as imageminGiflossy from 'imagemin-giflossy';
 import imageminPngquant from 'imagemin-pngquant';
 import * as imageminSvgo from 'imagemin-svgo';
 import * as imageminZopfli from 'imagemin-zopfli';
+import HeadlessBrowser, { DeviceType } from '../utils/browser';
 import { ImageElement } from '../types/image-element';
 import isWebUrl from '../utils/is-web-url';
 import getDownloadFolder from '../utils/get-download-folder';
-import customDevices from '../utils/browser/custom-device-descriptors';
 import isSvg from 'is-svg';
 import * as sharp from 'sharp';
 import { extendDefaultPlugins } from 'svgo';
@@ -37,31 +36,20 @@ export default class Optimize extends Command {
   async run() {
     const { args } = this.parse(Optimize);
 
-    cli.action.start('Loading browser');
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox'],
-      timeout: 10000,
-    });
-    cli.action.stop();
+    const browser = await HeadlessBrowser.launch();
 
     let images: ImageElement[];
-
     try {
-      const page = await browser.newPage();
+      const page = await browser.openPage(args.pageUrl, DeviceType.MOBILE);
 
-      await page.emulate(customDevices['Common Desktop']);
-
-      cli.action.start('Loading URL');
-      page.once('load', () => cli.action.stop());
-      await page.goto(args.pageUrl, { waitUntil: 'load', timeout: 60000 });
-
-      images = await page.evaluate(() =>
-        [...document.querySelectorAll<HTMLImageElement>('body img')].map(
-          ({ src, width, height, alt }) => {
-            return { src, width, height, alt };
-          }
-        )
-      );
+      // Serializable function that is evaluated on the browser
+      const getImageElements = () => {
+        const imageElements = document.querySelectorAll<HTMLImageElement>('body img');
+        return [...imageElements].map(({ src, width, height, alt }) => {
+          return { src, width, height, alt };
+        });
+      };
+      images = await page.evaluate(getImageElements);
 
       await browser.close();
     } catch (error) {
@@ -70,7 +58,7 @@ export default class Optimize extends Command {
       throw error;
     }
 
-    images = this.removeDuplicateImages(images);
+    const uniqueImages = this.removeDuplicateImages(images);
 
     const optimizedImagesDirectory = path.join(getDownloadFolder(), '/optimized-images/');
 
@@ -83,10 +71,10 @@ export default class Optimize extends Command {
     const progressBar = cli.progress({
       format: 'Optimizing images... [{bar}] | {value}/{total}',
     });
-    progressBar.start(images.length);
+    progressBar.start(uniqueImages.length);
 
     await Promise.all(
-      images.map(async (image) => {
+      uniqueImages.map(async (image) => {
         if (isWebUrl(image.src)) {
           const response = await fetch(image.src);
           let imageBuffer = await response.buffer();

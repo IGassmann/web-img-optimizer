@@ -1,7 +1,8 @@
-import { cli } from 'cli-ux';
 import * as puppeteer from 'puppeteer';
-import customDevices from './custom-device-descriptors';
 import DeviceType from './device-type';
+export { default as DeviceType } from './device-type';
+import customDevices from './custom-device-descriptors';
+import { cli } from 'cli-ux';
 
 export default class HeadlessBrowser {
   private static startTimeout = 10_000;

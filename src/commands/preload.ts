@@ -1,22 +1,6 @@
 import { Command, flags } from '@oclif/command';
-import { cli } from 'cli-ux';
-import * as puppeteer from 'puppeteer';
-import customDevices from '../utils/browser/custom-device-descriptors';
+import HeadlessBrowser, { DeviceType } from '../utils/browser';
 import { ImageElement } from '../types/image-element';
-
-function calculateLargestImageElement() {
-  const observer = new PerformanceObserver((entryList) => {
-    const entries = entryList.getEntries();
-    const lastEntry = entries[entries.length - 1];
-    const largestContentfulElement = lastEntry.element;
-    if (largestContentfulElement instanceof HTMLImageElement) {
-      const { src, srcset, sizes } = largestContentfulElement;
-      window.largestImageElement = { src, srcset, sizes };
-    }
-  });
-
-  observer.observe({ type: 'largest-contentful-paint', buffered: true });
-}
 
 export default class Preload extends Command {
   static description =
@@ -37,27 +21,27 @@ export default class Preload extends Command {
   async run() {
     const { args } = this.parse(Preload);
 
-    cli.action.start('Loading browser');
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox'],
-      timeout: 10_000,
-    });
-    cli.action.stop();
+    const browser = await HeadlessBrowser.launch();
 
     try {
-      const page = await browser.newPage();
+      const page = await browser.openPage(args.pageUrl, DeviceType.MOBILE);
 
-      await page.emulate(customDevices['Moto G4']);
+      // Serializable function that is evaluated on the browser
+      const getLargestImageElement = (): ImageElement | undefined => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        const observer = new PerformanceObserver(() => {});
+        observer.observe({ type: 'largest-contentful-paint', buffered: true });
 
-      await page.evaluateOnNewDocument(calculateLargestImageElement);
+        const records = observer.takeRecords();
+        const lastEntry = records[records.length - 1];
+        const largestContentfulElement = lastEntry.element;
 
-      cli.action.start('Loading URL');
-      page.once('load', () => cli.action.stop());
-      await page.goto(args.pageUrl, { waitUntil: 'load', timeout: 60_000 });
-
-      const largestImageElement = await page.evaluate(() => {
-        return window.largestImageElement;
-      });
+        if (largestContentfulElement instanceof HTMLImageElement) {
+          const { src, srcset, sizes } = largestContentfulElement;
+          return { src, srcset, sizes };
+        }
+      };
+      const largestImageElement = await page.evaluate(getLargestImageElement);
 
       if (largestImageElement) {
         this.printPreloadTag(largestImageElement);
