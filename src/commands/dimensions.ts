@@ -38,7 +38,7 @@ export default class Dimensions extends Command {
 
       const imagesWithDimensions = images.filter((image) => image.height && image.width);
 
-      this.outputImageDimensions(imagesWithDimensions);
+      this.printImageDimensions(imagesWithDimensions);
 
       browser.close();
     } catch (error) {
@@ -48,7 +48,7 @@ export default class Dimensions extends Command {
     }
   }
 
-  private outputImageDimensions(imagesWithDimensions: ImageElement[]) {
+  private printImageDimensions(imagesWithDimensions: ImageElement[]) {
     const columns: table.Columns<typeof imagesWithDimensions[number]> = {
       width: {},
       height: {},
