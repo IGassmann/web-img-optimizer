@@ -6,7 +6,8 @@
     "web",
     "image",
     "performance",
-    "cli"
+    "cli",
+    "core web vitals"
   ],
   "license": "Unlicense",
   "homepage": "https://github.com/IGassmann/web-img-optimizer",
