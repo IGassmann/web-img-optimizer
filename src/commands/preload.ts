@@ -18,7 +18,7 @@ export default class Preload extends Command {
     },
   ];
 
-  async run() {
+  async run(): Promise<void> {
     const { args } = this.parse(Preload);
 
     const browser = await HeadlessBrowser.launch();
@@ -40,6 +40,7 @@ export default class Preload extends Command {
           const { src, srcset, sizes } = largestContentfulElement;
           return { src, srcset, sizes };
         }
+        return undefined;
       };
       const largestImageElement = await page.evaluate(getLargestImageElement);
       browser.close();

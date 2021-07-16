@@ -12,14 +12,14 @@ function getWindowsDownloadFolder() {
     'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders'
   );
 
-  for (const value of folders) {
+  folders.forEach((value) => {
     if (value.name === '{374DE290-123F-4565-9164-39C4925E467B}') {
       if (typeof value.data === 'string') {
         folder = value.data.replace('%USERPROFILE%', process.env.USERPROFILE as string);
       }
-      break;
     }
-  }
+  });
+
   return folder;
 }
 

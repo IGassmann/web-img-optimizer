@@ -1,8 +1,9 @@
 import puppeteer from 'puppeteer';
-import DeviceType from './device-type';
-export { default as DeviceType } from './device-type';
-import customDevices from './custom-device-descriptors';
 import { cli } from 'cli-ux';
+import DeviceType from './device-type';
+import customDevices from './custom-device-descriptors';
+
+export { default as DeviceType } from './device-type';
 
 export default class HeadlessBrowser {
   private static startTimeout = 10_000;
@@ -47,7 +48,7 @@ export default class HeadlessBrowser {
     return page;
   }
 
-  close() {
+  close(): void {
     this.browser.close();
   }
 }

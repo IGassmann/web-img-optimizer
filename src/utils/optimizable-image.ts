@@ -60,7 +60,7 @@ export default class OptimizableImage {
   ): Promise<boolean> {
     if (!imageWidth || !imageHeight) return false;
 
-    const contentType = this.contentType;
+    const { contentType } = this;
 
     return contentType?.mime !== 'image/svg+xml' && contentType?.mime !== 'image/gif';
   }

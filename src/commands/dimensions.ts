@@ -19,7 +19,7 @@ export default class Dimensions extends Command {
     },
   ];
 
-  async run() {
+  async run(): Promise<void> {
     const { args } = this.parse(Dimensions);
 
     const browser = await HeadlessBrowser.launch();
@@ -30,9 +30,12 @@ export default class Dimensions extends Command {
       // Serializable function that is evaluated on the browser
       const getImageElements = () => {
         const imageElements = document.querySelectorAll<HTMLImageElement>('body img');
-        return [...imageElements].map(({ src, width, height, alt }) => {
-          return { src, width, height, alt };
-        });
+        return [...imageElements].map(({ src, width, height, alt }) => ({
+          src,
+          width,
+          height,
+          alt,
+        }));
       };
       const images: ImageElement[] = await page.evaluate(getImageElements);
       browser.close();

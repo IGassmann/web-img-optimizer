@@ -24,12 +24,15 @@ export default class Optimize extends Command {
     },
   ];
 
-  async run() {
+  async run(): Promise<void> {
     const { args } = this.parse(Optimize);
 
     const imageElements = await this.getImageElements(args.pageUrl);
 
-    if (imageElements.length === 0) return this.log('This page contains no image.');
+    if (imageElements.length === 0) {
+      this.log('This page contains no image.');
+      return;
+    }
 
     const outputDirectory = path.join(getDownloadFolder(), '/optimized-images/');
 
@@ -54,7 +57,7 @@ export default class Optimize extends Command {
           const optimizableImage = await OptimizableImage.fromBuffer(imageBuffer);
           await optimizableImage.optimize(image.width, image.height);
 
-          const fileName = `image-${index++}.${optimizableImage.contentType?.ext}`;
+          const fileName = `image-${(index += 1)}.${optimizableImage.contentType?.ext}`;
           fs.writeFileSync(path.join(outputDirectory, fileName), optimizableImage.toBuffer());
           progressBar.update(index - 1);
         }
@@ -75,9 +78,12 @@ export default class Optimize extends Command {
       // Serializable function that is evaluated on the browser
       const getImageElements = () => {
         const imageElements = document.querySelectorAll<HTMLImageElement>('body img');
-        return [...imageElements].map(({ src, width, height, alt }) => {
-          return { src, width, height, alt };
-        });
+        return [...imageElements].map(({ src, width, height, alt }) => ({
+          src,
+          width,
+          height,
+          alt,
+        }));
       };
       images = await page.evaluate(getImageElements);
 
@@ -88,12 +94,12 @@ export default class Optimize extends Command {
       throw error;
     }
 
-    return this.removeDuplicateImages(images);
+    return Optimize.removeDuplicateImages(images);
   }
 
-  private removeDuplicateImages(images: ImageElement[]): ImageElement[] {
-    return images.filter((image, index, self) => {
-      return index === self.findIndex((foundImage) => foundImage.src === image.src);
-    });
+  private static removeDuplicateImages(images: ImageElement[]): ImageElement[] {
+    return images.filter(
+      (image, index, self) => index === self.findIndex((foundImage) => foundImage.src === image.src)
+    );
   }
 }

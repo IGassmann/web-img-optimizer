@@ -35,6 +35,8 @@ export type CustomDevicesMap = {
 
 const customDevicesMap: CustomDevicesMap = {};
 
-for (const device of devices) customDevicesMap[device.name] = device;
+devices.forEach((device) => {
+  customDevicesMap[device.name] = device;
+});
 
 export default customDevicesMap;
