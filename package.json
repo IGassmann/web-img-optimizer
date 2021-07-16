@@ -108,9 +108,5 @@
       "sign": "Developer ID Installer: Igor Gassmann (FBTMM9G54Z)",
       "identifier": "me.igassmann.web-img-optimizer"
     }
-  },
-  "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix",
-    "*.gitignore": "prettier --write"
   }
 }

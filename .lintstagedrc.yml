@@ -1,4 +1,4 @@
 '*.{ts,js,yml,json,md}': prettier --write
 '*.{ts,js}':
-  - eslint --fix
+  - eslint --cache --fix
   - jest --bail --passWithNoTests --findRelatedTests
