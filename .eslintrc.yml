@@ -1,3 +1,6 @@
 extends:
   - oclif-typescript
+  - airbnb-typescript/base
   - prettier
+parserOptions:
+  project: ./tsconfig.eslint.json
