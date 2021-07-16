@@ -1,6 +1,6 @@
 {
   "name": "web-img-optimizer",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "A tool for optimizing the images of a web page.",
   "keywords": [
     "web",
