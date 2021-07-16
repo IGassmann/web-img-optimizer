@@ -2,6 +2,8 @@
 
 A tool for optimizing the images of a web page.
 
+<img alt="web-img-optimizer demo" src="https://user-images.githubusercontent.com/4291707/126013369-f12fb3fc-5207-40d7-8f1d-73f01381f654.gif" width="640" height="421">
+
 # Installation
 
 Download and install the installer for your system:
