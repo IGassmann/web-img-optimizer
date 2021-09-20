@@ -1,8 +1,8 @@
 import { Command, flags } from '@oclif/command';
 import { cli } from 'cli-ux';
 import { table } from 'cli-ux/lib/styled/table';
-import HeadlessBrowser, { DeviceType } from '../utils/browser';
 import { ImageElement } from '../types/image-element';
+import HeadlessBrowser, { DeviceType } from '../utils/browser';
 
 export default class Dimensions extends Command {
   static description = 'Get the dimensions of all the rendered image elements.';
@@ -30,17 +30,17 @@ export default class Dimensions extends Command {
       // Serializable function that is evaluated on the browser
       const getImageElements = () => {
         const imageElements = document.querySelectorAll<HTMLImageElement>('body img');
-        return [...imageElements].map(({ src, width, height, alt }) => ({
+        return [...imageElements].map(({ src, naturalWidth, naturalHeight, alt }) => ({
           src,
-          width,
-          height,
+          width: naturalWidth,
+          height: naturalHeight,
           alt,
         }));
       };
       const images: ImageElement[] = await page.evaluate(getImageElements);
       browser.close();
 
-      const imagesWithDimensions = images.filter((image) => image.height && image.width);
+      const imagesWithDimensions = images.filter((image) => image.width && image.height);
 
       if (imagesWithDimensions.length !== 0) {
         this.printImageDimensions(imagesWithDimensions);
