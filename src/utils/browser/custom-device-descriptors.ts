@@ -1,4 +1,4 @@
-import { Device } from 'puppeteer'
+import { Device } from 'puppeteer-core'
 
 const devices: Device[] = [
   {

@@ -16,8 +16,7 @@
   "author": "Igor Gassmann <igor@igassmann.me> (https://igassmann.me/)",
   "files": [
     "/bin",
-    "/lib",
-    "/scripts"
+    "/lib"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -25,7 +24,6 @@
     "wio": "./bin/run"
   },
   "scripts": {
-    "postinstall": "node scripts/download-chrome.js",
     "test": "jest",
     "format": "prettier . --write --ignore-path ./.gitignore",
     "lint": "eslint . --ext .js,.ts --fix --ignore-path ./.gitignore",
@@ -47,7 +45,7 @@
     "image-type": "^4.1.0",
     "is-svg": "^4.3.1",
     "node-fetch": "^2.6.6",
-    "puppeteer": "^10.1.0",
+    "puppeteer-core": "^10.4.0",
     "registry-js": "^1.15.1",
     "sharp": "^0.29.2",
     "svgo": "^2.7.0",

@@ -16,7 +16,7 @@ describe('dimensions', () => {
     .stdout()
     .command(['dimensions', 'https://perdu.com/'])
     .it('logs that there is no image', (context) => {
-      expect(context.stdout).toBe('This page contains no image.\n')
+      expect(context.stdout).toContain('This page contains no image.\n')
     })
 
   test.command(['dimensions']).exit(2).it('exits with status code 2 when no argument is passed')

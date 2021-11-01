@@ -16,7 +16,7 @@ describe('preload', () => {
     .stdout()
     .command(['preload', 'https://igassmann.me/'])
     .it('logs that there’s no image to preload.', (context) => {
-      expect(context.stdout).toBe('No image to preload. The largest element isn’t an image.\n')
+      expect(context.stdout).toContain('No image to preload. The largest element isn’t an image.\n')
     })
 
   test.command(['preload']).exit(2).it('exits with status code 2 when no argument is passed')
