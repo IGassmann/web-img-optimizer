@@ -23,9 +23,8 @@ subset of the functionality and that get individually code-reviewed against the
 create a pull request for merging the latter into the main branch.
 
 It’s usually best to do refactorings in a separate PR from feature changes or bug fixes. For
-example, moving and renaming a class should be in a different PR from fixing a bug in that class.
-It is much easier for reviewers to understand the changes introduced by each PR when they are
-separate.
+example, moving and renaming a class should be in a different PR from fixing a bug in that class. It
+is much easier for reviewers to understand the changes introduced by each PR when they are separate.
 
 Small cleanups such as fixing a local variable name can be included inside of a feature change or
 bug fix PR. It’s up to the judgment of developers and reviewers to decide when a refactoring is so
@@ -50,7 +49,8 @@ should summarize the PR in the imperative form.
 
 Even small PRs deserve a little attention to detail. Put the PR in context.
 
-It can also be helpful to open a [draft pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests)
+It can also be helpful to open a
+[draft pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests)
 at the start of the development to document first and lay down the tasks with a checklist.
 
 #### Self Review and Test
@@ -60,7 +60,8 @@ reviewers’ time, test the submitted changes (i.e., run the test suite) and mak
 builds as well as all tests and code quality checks, both locally and on the CI servers, before
 assigning reviewers.
 
-We recommend opening a [draft pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests)
+We recommend opening a
+[draft pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests)
 to help you review your PR before assigning reviewers. If you find relevant, you can also drop some
 comments to provide more context to reviewers.
 

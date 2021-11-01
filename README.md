@@ -17,9 +17,8 @@ Download and install the installer for your system:
 
 Open Launchpad and search for **terminal**.
 
-Alternatively, you can access the terminal by pressing **⌘ + SPACE** on your keyboard and
-searching for
-"terminal."
+Alternatively, you can access the terminal by pressing **⌘ + SPACE** on your keyboard and searching
+for "terminal."
 
 ## Open Command Prompt in Windows
 

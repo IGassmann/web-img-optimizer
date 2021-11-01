@@ -1,4 +1,7 @@
-'*.{ts,js,yml,json,md}': prettier --write
-'*.{ts,js}':
-  - eslint --cache --fix
-  - jest --bail --passWithNoTests --findRelatedTests
+# Run ESLint before Prettier for TypeScript and JavaScript files
+'*.{tsx,ts,js}':
+  - eslint --fix
+  - prettier --write
+# Run Prettier for non-TypeScript and non-JavaScript files
+'!(*.{tsx,ts,js})': prettier --ignore-unknown --write
+'*.{ts,tsx,js}': 'jest --bail --passWithNoTests --findRelatedTests'

@@ -3,4 +3,4 @@ enum DeviceType {
   DESKTOP = 'DESKTOP',
 }
 
-export default DeviceType;
+export default DeviceType

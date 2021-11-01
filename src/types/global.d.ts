@@ -1,7 +1,7 @@
 declare global {
   interface PerformanceEntry {
-    element: HTMLUnknownElement;
+    element: HTMLUnknownElement
   }
 }
 
-export {};
+export {}

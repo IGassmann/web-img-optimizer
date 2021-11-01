@@ -1,7 +1,9 @@
-import type { Config } from '@jest/types';
+import type { Config } from '@jest/types'
 
 const config: Config.InitialOptions = {
-  roots: ['<rootDir>/src/', '<rootDir>/test/'],
-};
+  collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx,js}'],
+  roots: ['<rootDir>/src/', '<rootDir>/test/', '<rootDir>/scripts/'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
+}
 
-export default config;
+export default config

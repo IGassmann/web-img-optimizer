@@ -1,3 +1,3 @@
-const isWebUrl = (urlString: string): boolean => /(http(s?)):\/\//i.test(urlString);
+const isWebUrl = (urlString: string): boolean => /(http(s?)):\/\//i.test(urlString)
 
-export default isWebUrl;
+export default isWebUrl

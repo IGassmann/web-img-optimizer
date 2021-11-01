@@ -1,54 +1,57 @@
-import puppeteer from 'puppeteer';
-import { cli } from 'cli-ux';
-import DeviceType from './device-type';
-import customDevices from './custom-device-descriptors';
+import { cli } from 'cli-ux'
+import puppeteer from 'puppeteer'
+import customDevices from './custom-device-descriptors'
+import DeviceType from './device-type'
 
-export { default as DeviceType } from './device-type';
+export { default as DeviceType } from './device-type'
 
 export default class HeadlessBrowser {
-  private static startTimeout = 10_000;
+  private static startTimeout = 10_000
 
-  private static pageWaitTimeout = 60_000;
+  private static pageWaitTimeout = 60_000
 
-  private browser: puppeteer.Browser;
+  private browser: puppeteer.Browser
 
   private constructor(browser: puppeteer.Browser) {
-    this.browser = browser;
+    this.browser = browser
   }
 
   static async launch(): Promise<HeadlessBrowser> {
-    cli.action.start('Loading browser');
+    cli.action.start('Loading browser')
     const loadedBrowser = await puppeteer.launch({
       args: ['--no-sandbox'],
       timeout: HeadlessBrowser.startTimeout,
-    });
-    cli.action.stop();
+    })
+    cli.action.stop()
 
-    return new HeadlessBrowser(loadedBrowser);
+    return new HeadlessBrowser(loadedBrowser)
   }
 
   async openPage(url: string, deviceType: DeviceType): Promise<puppeteer.Page> {
-    const page = await this.browser.newPage();
+    const page = await this.browser.newPage()
 
-    let customDevice;
+    let customDevice
     if (deviceType === DeviceType.MOBILE) {
-      customDevice = customDevices['Moto G4'];
+      customDevice = customDevices['Moto G4']
     } else if (deviceType === DeviceType.DESKTOP) {
-      customDevice = customDevices['Common Desktop'];
+      customDevice = customDevices['Common Desktop']
     } else {
-      customDevice = customDevices['Moto G4'];
+      customDevice = customDevices['Moto G4']
     }
 
-    await page.emulate(customDevice);
+    await page.emulate(customDevice)
 
-    cli.action.start('Loading URL');
-    page.once('load', () => cli.action.stop());
-    await page.goto(url, { waitUntil: 'load', timeout: HeadlessBrowser.pageWaitTimeout });
+    cli.action.start('Loading URL')
+    page.once('load', () => cli.action.stop())
+    await page.goto(url, {
+      waitUntil: 'networkidle0',
+      timeout: HeadlessBrowser.pageWaitTimeout,
+    })
 
-    return page;
+    return page
   }
 
   close(): void {
-    this.browser.close();
+    this.browser.close()
   }
 }

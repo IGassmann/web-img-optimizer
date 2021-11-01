@@ -1,4 +1,4 @@
-import { Device } from 'puppeteer';
+import { Device } from 'puppeteer'
 
 const devices: Device[] = [
   {
@@ -27,16 +27,16 @@ const devices: Device[] = [
       isLandscape: false,
     },
   },
-];
+]
 
 export type CustomDevicesMap = {
-  [name: string]: Device;
-};
+  [name: string]: Device
+}
 
-const customDevicesMap: CustomDevicesMap = {};
+const customDevicesMap: CustomDevicesMap = {}
 
 devices.forEach((device) => {
-  customDevicesMap[device.name] = device;
-});
+  customDevicesMap[device.name] = device
+})
 
-export default customDevicesMap;
+export default customDevicesMap
