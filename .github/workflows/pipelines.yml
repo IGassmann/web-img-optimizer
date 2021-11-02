@@ -143,9 +143,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   publish_to_github_packages:
-    name: Publish to GitHub packages
+    name: Publish to GitHub Packages
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [ test, build-tarballs, build-installers ]
+    needs: [test, build-tarballs, build-installers]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -159,6 +159,8 @@ jobs:
           node-version: '14.x'
           cache: yarn
           registry-url: 'https://npm.pkg.github.com'
+      - name: Force scoped package
+        run: echo "registry=https://npm.pkg.github.com/@igassmann" >> .npmrc
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Publish to GitHub Packages
