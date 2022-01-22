@@ -44,7 +44,7 @@
     "form-data": "^4.0.0",
     "image-type": "^4.1.0",
     "is-svg": "^4.3.1",
-    "node-fetch": "^2.6.6",
+    "node-fetch": "^3.1.1",
     "puppeteer-core": "^10.4.0",
     "registry-js": "^1.15.1",
     "sharp": "^0.29.2",
