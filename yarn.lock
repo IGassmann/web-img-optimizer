@@ -5799,9 +5799,9 @@ object.assign@^4.1.0:
     has-symbols "^1.0.1"
     object-keys "^1.1.1"
 
-oclif@IGassmann/oclif#patch-1:
+oclif@IGassmann/oclif#patch-1-compiled:
   version "2.4.4"
-  resolved "https://codeload.github.com/IGassmann/oclif/tar.gz/99e4a7b87b7b1eec00cbdddc8583f5c88ff8cec3"
+  resolved "https://codeload.github.com/IGassmann/oclif/tar.gz/0ffb278dfc0d2ed0fa92f5a8b0b0ac814a548d84"
   dependencies:
     "@oclif/core" "^1.3.0"
     "@oclif/plugin-help" "^5.1.11"
