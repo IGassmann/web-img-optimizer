@@ -34,25 +34,9 @@ press enter.
 
 <!-- commands -->
 
-- [`wio dimensions <PAGEURL>`](#wio-dimensions-pageurl)
 - [`wio optimize <PAGEURL>`](#wio-optimize-pageurl)
 - [`wio preload <PAGEURL>`](#wio-preload-pageurl)
 - [`wio update`](#wio-update)
-
-### `wio dimensions <PAGEURL>`
-
-Get the dimensions of all the rendered image elements.
-
-```
-USAGE
-  $ wio dimensions <PAGEURL>
-
-ARGUMENTS
-  PAGEURL  Page's URL from where to get the image dimensions.
-
-OPTIONS
-  -h, --help  show CLI help
-```
 
 ### `wio optimize <PAGEURL>`
 

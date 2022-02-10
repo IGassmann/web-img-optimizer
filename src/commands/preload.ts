@@ -1,4 +1,4 @@
-import { Command, flags } from '@oclif/command'
+import { Command, Flags } from '@oclif/core'
 import { ImageElement } from '../types/image-element'
 import HeadlessBrowser, { DeviceType } from '../utils/browser'
 
@@ -7,7 +7,7 @@ export default class Preload extends Command {
     'Generate the preload tag for the largest image visible within the initial viewport.'
 
   static flags = {
-    help: flags.help({ char: 'h' }),
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
@@ -19,7 +19,7 @@ export default class Preload extends Command {
   ]
 
   async run(): Promise<void> {
-    const { args } = this.parse(Preload)
+    const { args } = await this.parse(Preload)
 
     const browser = await HeadlessBrowser.launch()
 

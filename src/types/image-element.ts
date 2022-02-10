@@ -1,4 +1,6 @@
 export interface ImageElement {
+  [key: string]: unknown
+
   /**
    * The address or URL of the media resource that is to be considered.
    */

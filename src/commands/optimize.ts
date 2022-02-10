@@ -1,6 +1,6 @@
-import { Command, flags } from '@oclif/command'
-import { cli } from 'cli-ux'
+import { Command, Flags, CliUx } from '@oclif/core'
 import * as fs from 'fs'
+import { mkdirSync, rmSync } from 'fs'
 import fetch from 'node-fetch'
 import * as path from 'path'
 import { ImageElement } from '../types/image-element'
@@ -13,7 +13,7 @@ export default class Optimize extends Command {
   static description = 'Optimize all the rendered images.'
 
   static flags = {
-    help: flags.help({ char: 'h' }),
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
@@ -25,7 +25,7 @@ export default class Optimize extends Command {
   ]
 
   async run(): Promise<void> {
-    const { args } = this.parse(Optimize)
+    const { args } = await this.parse(Optimize)
 
     const imageElements = await this.getImageElements(args.pageUrl)
 
@@ -37,12 +37,12 @@ export default class Optimize extends Command {
     const outputDirectory = path.join(getDownloadFolder(), '/optimized-images/')
 
     // Reset output directory
-    fs.rmdirSync(outputDirectory, { recursive: true })
-    fs.mkdirSync(outputDirectory, { recursive: true })
+    rmSync(outputDirectory, { recursive: true, force: true })
+    mkdirSync(outputDirectory, { recursive: true })
 
     let index = 1
 
-    const progressBar = cli.progress({
+    const progressBar = CliUx.ux.progress({
       format: 'Optimizing images... [{bar}] | {value}/{total}',
     })
     progressBar.start(imageElements.length)
@@ -66,7 +66,7 @@ export default class Optimize extends Command {
     progressBar.stop()
 
     this.log('Optimized images available at:')
-    await cli.url(outputDirectory, `file://${outputDirectory}`)
+    await CliUx.ux.url(outputDirectory, `file://${outputDirectory}`)
   }
 
   private async getImageElements(pageUrl: string): Promise<ImageElement[]> {

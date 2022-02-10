@@ -117,5 +117,5 @@ The type of commit must be one of the following:
 
 ### Scope
 
-The scope could be anything specifying the area of the commit change. For example `dimensions`,
+The scope could be anything specifying the area of the commit change. For example
 `preload`, `optimize`, `typescript`, etc.

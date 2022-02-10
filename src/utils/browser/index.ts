@@ -1,5 +1,5 @@
+import { CliUx } from '@oclif/core'
 import os from 'os'
-import { cli } from 'cli-ux'
 import puppeteer, { PuppeteerNode } from 'puppeteer-core'
 import { PUPPETEER_REVISIONS } from 'puppeteer-core/lib/cjs/puppeteer/revisions'
 import customDevices from './custom-device-descriptors'
@@ -20,12 +20,12 @@ export default class HeadlessBrowser {
 
   static async launch(): Promise<HeadlessBrowser> {
     await downloadBrowser()
-    cli.action.start('Launching browser')
+    CliUx.ux.action.start('Launching browser')
     const launchedBrowser = await puppeteer.launch({
       args: ['--no-sandbox'],
       timeout: HeadlessBrowser.startTimeout,
     })
-    cli.action.stop()
+    CliUx.ux.action.stop()
 
     return new HeadlessBrowser(launchedBrowser)
   }
@@ -44,8 +44,8 @@ export default class HeadlessBrowser {
 
     await page.emulate(customDevice)
 
-    cli.action.start('Loading URL')
-    page.once('load', () => cli.action.stop())
+    CliUx.ux.action.start('Loading URL')
+    page.once('load', () => CliUx.ux.action.stop())
     await page.goto(url, {
       waitUntil: 'networkidle0',
       timeout: HeadlessBrowser.pageWaitTimeout,
@@ -70,7 +70,7 @@ async function downloadBrowser(): Promise<void> {
 
     // Do nothing if the revision is already downloaded.
     if (revisionInfo.local) {
-      cli.log(`Browser is already in ${revisionInfo.folderPath}; skipping download.`)
+      CliUx.ux.log(`Browser is already in ${revisionInfo.folderPath}; skipping download.`)
       return
     }
 
@@ -81,7 +81,7 @@ async function downloadBrowser(): Promise<void> {
     }
     function onProgress(downloadedBytes: number, totalBytes: number): void {
       if (!progressBar) {
-        progressBar = cli.progress({
+        progressBar = CliUx.ux.progress({
           format: 'Downloading browser... [{bar}] | {percentage}%',
         })
         progressBar.start(totalBytes)
@@ -94,7 +94,7 @@ async function downloadBrowser(): Promise<void> {
       // Use Intel x86 builds on Apple M1 until native macOS arm64
       // Chromium builds are available.
       if (os.platform() !== 'darwin' && os.arch() !== 'arm64') {
-        cli.log(`Browser (${revisionInfo.revision}) downloaded to ${revisionInfo.folderPath}`)
+        CliUx.ux.log(`Browser (${revisionInfo.revision}) downloaded to ${revisionInfo.folderPath}`)
       }
       localRevisions = localRevisions.filter((revision) => revision !== revisionInfo.revision)
       const cleanupOldVersions = localRevisions.map((revision) => browserFetcher.remove(revision))
@@ -103,12 +103,12 @@ async function downloadBrowser(): Promise<void> {
 
     function onError(error: NodeJS.ErrnoException): void {
       if (error.code === 'EACCES') {
-        cli.error('Run command with "sudo" on the first run. Example: sudo wio preload...')
+        CliUx.ux.error('Run command with "sudo" on the first run. Example: sudo wio preload...')
       } else {
-        cli.error('Failed to set up browser!')
+        CliUx.ux.error('Failed to set up browser!')
         console.error(error)
       }
-      cli.exit(1)
+      CliUx.ux.exit(1)
     }
 
     return browserFetcher
