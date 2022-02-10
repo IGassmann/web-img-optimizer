@@ -75,11 +75,15 @@ export default class OptimizableImage {
         .jpeg({
           mozjpeg: true,
           quality: 73,
+          force: false,
         })
         .png({
           quality: 80,
+          force: false,
         })
-        .webp()
+        .webp({
+          force: false,
+        })
         .toBuffer()
     }
   }
