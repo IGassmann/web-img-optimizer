@@ -47,7 +47,7 @@
     "node-fetch": "^2.6.7",
     "puppeteer-core": "^10.4.0",
     "registry-js": "^1.15.1",
-    "sharp": "^0.29.2",
+    "sharp": "^0.30.5",
     "svgo": "^2.7.0",
     "tslib": "^2.3.0"
   },
