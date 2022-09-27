@@ -71,7 +71,7 @@
     "husky": ">=7.0.4",
     "jest": "^27.3.1",
     "lint-staged": ">=11.2.6",
-    "oclif": "IGassmann/oclif#patch-1-compiled",
+    "oclif": "^3.2.5",
     "prettier": "2.4.1",
     "ts-node": "^10.1.0",
     "typescript": "^4.4.4"
